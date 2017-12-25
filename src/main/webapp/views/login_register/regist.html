@@ -1,0 +1,60 @@
+<div class="pagewrap" ng-init="create()">
+	<div class="main">
+		<div class="header"></div>
+		<div class="content">
+			<div class="con_left"></div>
+			<div class="con_right">
+				<div class="con_r_top">
+					<a href="javascript:;" class="right"
+						style="color: rgb(51, 51, 51); border-bottom-width: 2px; border-bottom-style: solid; border-bottom-color: rgb(46, 85, 142);">注册</a>
+				</div>
+				<ul>
+					<li class="con_r_right" style="display: block;">
+						<div class="user">
+							<div
+								style="height: 33px; line-height: 33px; margin-bottom: 20px;">
+								<div
+									style="display: inline-block; width: 89px; height: 33px; line-height: 33px; float: left;">
+									<span
+										style="display: inline-block; height: 33px; line-height: 33px; margin-right: 20px; float: right">用户名</span>
+								</div>
+								<input type="text" id="userName" name="userid"
+									ng-model="user.userName" placeholder="输入用户名"
+									style="width: 273px">
+							</div>
+							<div
+								style="height: 33px; line-height: 33px; margin-bottom: 20px;">
+								<div
+									style="display: inline-block; width: 89px; height: 33px; line-height: 33px; float: left;">
+									<span
+										style="display: inline-block; height: 33px; line-height: 33px; margin-right: 20px; float: right">登陆账号</span>
+								</div>
+								<input type="text" id="loginNo" name="loginNo"
+									style="width: 273px" ng-model="user.loginNo"
+									placeholder="输入登陆账号">
+							</div>
+							<div
+								style="height: 33px; line-height: 33px; margin-bottom: 20px;">
+								<div
+									style="display: inline-block; width: 89px; height: 33px; line-height: 33px; float: left;">
+
+									<span
+										style="display: inline-block; height: 33px; line-height: 33px; margin-right: 20px; float: right">登陆密码</span>
+								</div>
+								<input type="password" id="loginPwd" name="loginPwd"
+									style="width: 273px" ng-model="user.loginPwd"
+									placeholder="输入登陆密码">
+							</div>
+						</div> <br>
+						<button id="btn_Login" ng-click="regist()">注册</button>
+					</li>
+				</ul>
+				<div style="margin-top: 30px;">
+					<span
+						style="float: right; margin-right: 20px; color: red; font-size: 20px;"><a
+						ui-sref="regist">返回</a></span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

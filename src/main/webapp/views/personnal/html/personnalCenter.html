@@ -1,0 +1,60 @@
+
+<center ng-init="init()">
+	<fieldset
+		style="width: 400px; padding: 2%; text-align: center; margin-top: 100px; border: 1px solid gray;">
+		<div style="margin-top: 20px; height: 25px;">
+			<div
+				style="display: inline-block; width: 100px; height: 100%; float: left; margin-right: 20px;">
+				<span
+					style="display: inline-block; height: 25px; line-height: 25px; float: right;">账号</span>
+			</div>
+			<input type="text" readonly="readonly"
+				style="height: 100%; line-height: 100%; float: left;"
+				ng-model="user.loginNo">
+		</div>
+		<div style="margin-top: 20px; height: 25px;">
+			<div
+				style="display: inline-block; width: 100px; height: 100%; float: left; margin-right: 20px;">
+				<span
+					style="display: inline-block; height: 25px; line-height: 25px; float: right;">密码</span>
+			</div>
+			<input type="password" readonly="readonly"
+				style="height: 100%; line-height: 100%; float: left;"
+				ng-model="user.loginPwd"><a
+				style="display: inline-block; height: 100%; line-height: 100%;"
+				style="margin-left: 12px;"><span ng-click="canEdit()"
+				class="glyphicon glyphicon-pencil"
+				style="display: inline-block; height: 100%; line-height: 100%;"
+				aria-hidden="true"></span></a>
+		</div>
+		<div style="margin-top: 20px; height: 25px;" ng-show="canedit">
+			<div
+				style="display: inline-block; width: 100px; height: 100%; float: left; margin-right: 20px;">
+				<span
+					style="display: inline-block; height: 25px; line-height: 25px; float: right;">旧密码</span>
+			</div>
+			<input type="password" ng-model="oldPwd"
+				style="height: 100%; line-height: 100%; float: left;">
+		</div>
+		<div style="margin-top: 20px; height: 25px;" ng-show="canedit">
+			<div
+				style="display: inline-block; width: 100px; height: 100%; float: left; margin-right: 20px;">
+				<span
+					style="display: inline-block; height: 25px; line-height: 25px; float: right;">新密码</span>
+			</div>
+			<input type="password"
+				style="height: 100%; line-height: 100%; float: left;"
+				ng-model="newPwd">
+		</div>
+		<div style="margin-top: 40px;">
+			<button class="layui-btn " style="height: 23px; line-height: 23px;"
+				ng-click="updateUser()">修改</button>
+			<!-- <button class="layui-btn " style="height: 23px; line-height: 23px;"
+				ng-click="back()">返回</button> -->
+			<a href="#"
+				style="display: inline-block; color: white; background-color: #009688; height: 23px; text-decoration: none; line-height: 23px; padding: 0 18px; background-color: #009688; color: #fff; white-space: nowrap; text-align: center; font-size: 14px; border: none; border-radius: 2px;"
+				ui-sref="main" ui-sref-opts="{reload:true}">返回</a>
+		</div>
+	</fieldset>
+
+</center>

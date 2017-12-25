@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>测试ui-bootstrap</title>
+<link type="text/css"
+	href="/AREASTATE/css/bootstrap/css/bootstrap.css"
+	rel="stylesheet">
+<script type="text/javascript" src="/AREASTATE/js/angular/angular.js"></script>
+<script type="text/javascript"
+	src="/AREASTATE/js/ui-bootstrap/ui-bootstrap-tpls.js"></script>
+<script type="text/javascript" src="/AREASTATE/js/ui-bootstrap/ui-bootstrap.js"></script>
+<script type="text/javascript">
+	angular.module('modeOne', ['ui.bootstrap']).controller('UiController', ["$scope","$uibModal",function ($scope, $uibModal) {
+		//打开dialog的函数
+		$scope.openDialog = function(){
+			$modal.open({
+		        templateUrl:"myModalContent.html",//dialog的id，与html建立的template的id一致
+				controller:"ModalController"//指定dialog的controller
+			});
+		};
+	}]).controller("ModalController",function($scope, $modalInstance){
+		//定义dialog中的确认按钮的点击事件的处理函数
+		$scope.ok = function(){
+		$modalInstance.close();//
+		};
+		//定义dialog中的取消按钮的点击事件的处理函数
+		$scope.cancel = function(){
+		$modalInstance.dismiss('cancel');
+		    }
+		});
+</script>
+</head>
+<body ng-app="modeOne">
+	<div ng-controller="UiController">
+		<button ng-click="openDialog()" class="btn btn-default">打开弹出窗口</button>
+	</div>
+	<script type="text/ng-template" id="myModalContent.html">
+	<div class="modal-header">
+		<h3 class="modal-title">系统提示！</h3>
+	</div>
+	<div class="modal-body">
+		确认删除？
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="button" ng-click="ok()">确认</button>
+		<button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+	</div>
+</script>
+</body>
+</html>

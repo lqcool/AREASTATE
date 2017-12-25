@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frame.dao.myFolderDao.MyFolderMapper">
+    <insert id="addMyFolder" parameterType="com.frame.entity.myfolder.MyFolder">  
+        insert into myfolder(folderName,extrcode,user) values(#{folderName},#{extrcode},#{user.id})  
+    </insert>
+    <resultMap type="com.frame.entity.myfolder.MyFolder" id="resultListFolder">
+    	<id column="id" property="id"/>
+    	<result column="folderName" property="folderName"/>
+    	<result column="extrcode" property="extrcode"/>
+    	<association property="user" column="user" select="com.frame.dao.userDao.UserMapper.findUserById"></association>
+    	<collection property="myFiles" column="id" select="com.frame.dao.myFileDao.MyFileMapper.findFilesByFolderId"></collection>
+    </resultMap>
+    
+    <select id="findChildFolderByExtrcode" resultMap="resultListFolder">
+        SELECT * FROM myfolder where myfolder.extrcode like #{preExtrcode}
+    </select>
+    
+     <select id="findFoldersByUserId" resultMap="resultListFolder">
+        SELECT * FROM myfolder where myfolder.user = #{id} and myfolder.extrcode like #{extrcode}
+    </select>
+    
+    <select id="findAllFoldersByUserId" resultMap="resultListFolder">
+        SELECT * FROM myfolder where myfolder.user = #{id}
+    </select>
+    
+    <select id="findMyFolderById" parameterType="Integer" resultType="com.frame.entity.myfolder.MyFolder">
+        SELECT * FROM myfolder where myfolder.id = #{id}
+    </select>
+</mapper>

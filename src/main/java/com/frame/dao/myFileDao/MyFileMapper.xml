@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frame.dao.myFileDao.MyFileMapper">
+	<insert id="addMyFile" parameterType="com.frame.entity.myfile.MyFile">
+		insert into
+		myfile(fileName,extrcode,fileType,fileSize,filePath,user,myFolder,uploadDate)
+		values(#{fileName},#{extrcode},#{fileType},#{fileSize},#{filePath},#{user.id},#{myFolder.id},#{uploadDate})
+	</insert>
+	<insert id="updateMyFile" parameterType="com.frame.entity.myfile.MyFile">
+		update myfile
+		<set>
+			<if test="fileName != null">myfile.fileName=#{fileName},</if>
+			<if test="extrcode != null">myfile.extrcode=#{extrcode},</if>
+			<if test="fileType != null">myfile.fileType=#{fileType},</if>
+			<if test="fileSize != null">myfile.fileSize=#{fileSize},</if>
+			<if test="filePath != null">myfile.filePath=#{filePath},</if>
+			<if test="user != null">myfile.user=#{user.id},</if>
+			<if test="myFolder != null">myfile.myFolder=#{myFolder.id},</if>
+			<if test="uploadDate != null">myfile.uploadDate=#{uploadDate},</if>
+		</set>
+		where myfile.id=#{id}
+	</insert>
+	<resultMap type="com.frame.entity.myfile.MyFile" id="resultListFile">
+		<id column="id" property="id" />
+		<result column="fileName" property="fileName" />
+		<result column="extrcode" property="extrcode" />
+		<result column="fileType" property="fileType" />
+		<result column="fileSize" property="fileSize" />
+		<result column="uploadDate" property="uploadDate" javaType="java.util.Date" />
+		<association property="user" column="user"
+			select="com.frame.dao.userDao.UserMapper.findUserById"></association>
+		<association property="myFolder" column="myFolder"
+			select="com.frame.dao.myFolderDao.MyFolderMapper.findMyFolderById"></association>
+	</resultMap>
+	<select id="findAllFiles" resultMap="resultListFile">
+		SELECT * FROM myfile ORDER BY uploadDate DESC
+	</select>
+	<select id="findFilesByFolderId" resultMap="resultListFile">
+		SELECT * FROM myfile
+		where myfile.myFolder = #{id}
+	</select>
+	<select id="findChildFileByExtrcode" resultMap="resultListFile">
+		SELECT * FROM
+		myfile where myfile.extrcode like #{preExtrcode}
+	</select>
+	<select id="getPageList" resultMap="resultListFile">
+		SELECT * FROM myfile where
+		myfile.extrcode like #{preExtrcode} ORDER BY uploadDate DESC limit
+		#{startIndex},#{pageSize}
+	</select>
+	<select id="getSearchPageList" resultMap="resultListFile">
+		SELECT * FROM myfile
+		where myfile.user = #{user} and (myfile.extrcode like
+		#{searchCondition} or myfile.fileName like #{searchCondition} or
+		myfile.fileType like #{searchCondition}) ORDER BY uploadDate DESC limit
+		#{startIndex},#{pageSize}
+	</select>
+	<select id="getTotalItems" parameterType="String" resultType="int">
+		SELECT count(1) FROM myfile where myfile.extrcode like #{preExtrcode}
+	</select>
+	<select id="getSearchTotalItems" resultType="int">
+		SELECT count(1) FROM
+		myfile where myfile.user = #{user} and (myfile.extrcode like
+		#{searchCondition} or myfile.fileName like #{searchCondition} or
+		myfile.fileType like #{searchCondition})
+	</select>
+	<select id="findFileById" parameterType="Integer"
+		resultType="com.frame.entity.myfile.MyFile">
+		select * FROM myfile where myfile.id = #{id}
+	</select>
+	<select id="deleteFile" parameterType="Integer" resultType="int">
+		delete FROM myfile where myfile.id = #{id}
+	</select>
+</mapper>

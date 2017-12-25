@@ -1,0 +1,36 @@
+<fieldset style="padding: 2%" ng-init="init()">
+	<legend
+		style="padding-top: 20px; padding-top: 20px; font-size: 14px; font-family: 微软雅黑;">日志记录</legend>
+	<div>
+		<div style="text-align: center;" ng-if="logList.length==0">暂无日志信息</div>
+		<table class="table table-hover" ng-if="logList.length!=0">
+			<thead>
+				<tr>
+					<td style="width: 60px;">ID</td>
+					<td class="wrap_td">用户</td>
+					<td class="wrap_td">操作时间</td>
+					<td class="wrap_td">操作详情</td>
+					<!-- <td class="wrap_td" style="text-align: center;">操作</td> -->
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="($index,log) in logList">
+					<td class="wrap_td">{{log.id}}</td>
+					<td class="wrap_td" title="{{log.operateUser.loginNo}}">{{log.operateUser.loginNo}}</td>
+					<td class="wrap_td" title="{{log.operateDate}}">{{log.operateDate|date:'yyyy-MM-dd
+						HH:mm'}}</td>
+					<td class="wrap_td" title="{{log.operation}}">{{log.operation}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<div>
+			<button id="nextPageBtn" class="selectpage_btn" style="float: left"
+				ng-click="nextPage($event)">下一页</button>
+			<div
+				style="float: left; display: inline-block; height: 31px; line-height: 31px; width: 85%; text-align: center;">总页数：{{totalPage==0?
+				1:totalPage}}-----第：{{currentPage}}页</div>
+			<button id="lastPageBtn" class="selectpage_btn" style="float: right"
+				ng-click="lastPage($event)">上一页</button>
+		</div>
+	</div>
+</fieldset>

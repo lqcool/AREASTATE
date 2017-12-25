@@ -1,0 +1,103 @@
+<div ng-init="init()">
+	<fieldset style="padding: 2%;">
+		<legend
+			style="padding-top: 20px; padding-top: 20px; font-size: 14px; font-family: 微软雅黑;">文件夹</legend>
+		<div class="row mainTable_container">
+			<ul ng-if="childFolders.length!=0">
+				<a ng-repeat="folder in childFolders">
+					<li ng-click="goAimFolder(folder)"><div>
+							<img alt="" src="../images/timg.jpg" style="width: 96px;">
+							<p style="width: 100%; text-align: center; color: #009688">{{folder.folderName}}</p>
+						</div></li>
+				</a>
+			</ul>
+			<div style="text-align: center;" ng-if="childFolders.length==0">
+				<img src="/AREASTATE/images/nothing.png"
+					style="width: 162px; height: 162px;" /><br> 暂无文件夹
+			</div>
+		</div>
+	</fieldset>
+
+	<fieldset style="padding: 2%;">
+		<legend
+			style="padding-top: 20px; padding-top: 20px; font-size: 14px; font-family: 微软雅黑;">文件</legend>
+		<div>
+			<div style="text-align: center;" ng-if="childFiles.length==0">
+				<img src="/AREASTATE/images/nothing.png"
+					style="width: 162px; height: 162px;" /><br> 暂无文件
+			</div>
+			<table class="table table-hover" ng-if="childFiles.length!=0">
+				<thead>
+					<tr>
+						<td style="width: 120px;">CODE</td>
+						<td class="wrap_td">文件名称</td>
+						<!-- 	<td class="wrap_td">文件类型</td> -->
+						<td class="wrap_td">文件大小</td>
+						<td class="wrap_td">所属文件夹</td>
+						<td class="wrap_td">更新时间</td>
+						<td class="wrap_td" style="text-align: center; widdth: 200px;">操作</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="($index,file) in childFiles" id="{{file.id}}"
+						operate-id="file.id" context-menu>
+						<td>{{file.extrcode}}</td>
+						<td class="wrap_td" title="{{file.fileName}}">{{file.fileName}}</td>
+						<td class="wrap_td" title="{{file.fileSize}}">{{file.fileSize}}MB</td>
+						<td class="wrap_td" title="{{file.myFolder.folderName}}">{{file.myFolder.folderName}}</td>
+						<td class="wrap_td" title="{{file.uploadDate}}">{{file.uploadDate|date:'yyyy-MM-dd HH:mm'}}</td>
+						<td class="operate">
+							<a title="下载"><span ng-click="download(file.filePath)" class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></a>
+							<a title="重命名"><span ng-click="openRenameFileDialog(file)" class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							<a title="删除"><span ng-click="openConfirmDialog(file.id)" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> 
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div ng-if="childFiles.length!=0">
+				<button id="nextPageBtn" class="selectpage_btn" style="float: left"
+					ng-click="nextPage($event)">下一页</button>
+				<div
+					style="float: left; display: inline-block; height: 31px; line-height: 31px; width: 85%; text-align: center;">总页数：{{totalPage==0?
+					1:totalPage}}-----第：{{currentPage}}页</div>
+				<button id="lastPageBtn" class="selectpage_btn" style="float: right"
+					ng-click="lastPage($event)">上一页</button>
+			</div>
+		</div>
+	</fieldset>
+</div>
+
+<script type="text/ng-template" id="renameFile1.html">
+	<div class="modal-header" style="background: #009688;color: white;">
+		<h4 class="modal-title">文件重命名</h4>
+	</div>
+	<div class="modal-body">
+        <div class="row">
+			<div style="height:30px;padding-left: 4%;"><span style="display:inline-block;height:100%;line-height:30px;">原文件名称：</span><input type="text" readonly="readonly" ng-model="fileName" autocomplete="off" style="height:100%;line-height:30px;"></div>
+        </div>
+		<br>
+        <div class="row">
+			<div style="height:30px;padding-left: 4%;"><span style="display:inline-block;height:100%;line-height:30px;">新文件名称：</span><input type="text" ng-model="newFileName" autocomplete="off" style="height:100%;line-height:30px;"></div>
+        </div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="button" ng-click="renameFile()">确定</button>
+		<button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="confirm.html">
+	<div class="modal-header" style="background: #009688;color: white;">
+		<h4 class="modal-title">操作确认</h4>
+	</div>
+	<div class="modal-body">
+        <div class="row" style="text-align: center;font-size: 16px;">
+			确认删除？
+        </div>
+		<br>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="button" ng-click="confirm()">确定</button>
+		<button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+	</div>
+</script>
