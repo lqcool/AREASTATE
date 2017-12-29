@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frame.dao.landDao.LandMapper">
+
+	<insert id="addLand" parameterType="com.frame.entity.land.Land">
+		insert into
+		land(landName,code,landAreas,inputDate,landState) values(#{landName},#{code},#{landAreas},#{inputDate},#{landState})
+	</insert>
+
+	<insert id="updateLand" parameterType="com.frame.entity.land.Land">
+		update Land
+		<set>
+			<if test="landName != null">land.landName=#{landName},</if>
+			<if test="code != null">land.code=#{code},</if>
+			<if test="landAreas != null">land.landAreas=#{landAreas},</if>
+			<if test="inputDate != null">land.inputDate=#{inputDate},</if>
+			<if test="landState != null">land.landState=#{landState},</if>
+		</set>
+		where land.id=#{id}
+	</insert>
+	
+	<resultMap type="com.frame.entity.land.Land" id="resultListLand">
+		<id column="id" property="id" />
+		<result column="landName" property="landName" />
+		<result column="code" property="code" />
+		<result column="landAreas" property="landAreas" />
+		<result column="inputDate" property="inputDate" javaType="java.util.Date" />
+		<result column="landState" property="landState"/>
+	</resultMap>
+	
+	<select id="findLandById" parameterType="Integer"
+		resultType="com.frame.entity.land.Land">
+		SELECT * FROM land where land.id=#{id}
+	</select>
+	
+	<select id="findAllLands" resultMap="resultListLand">
+		SELECT * FROM land ORDER BY inputDate DESC
+	</select>
+	
+	<select id="deleteLand" parameterType="Integer" resultType="int">
+		delete FROM land where land.id = #{id}
+	</select>
+</mapper>

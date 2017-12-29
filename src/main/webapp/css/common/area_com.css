@@ -1,0 +1,55 @@
+@CHARSET "UTF-8";
+
+.area_navbar {
+	height: 100px;
+	line-height: 100px;
+	text-align: center;
+	background: #61e7d1;
+	margin-bottom: 30px;
+}
+
+.area_mainBorderStyle {
+	border: 1px solid #baacb9
+}
+
+.area_mainContent {
+	margin-bottom: 10px;
+}
+
+.area_content {
+	margin-left: 50px;
+}
+
+.area_left_nav li {
+	height: 31px;
+	line-height: 30px;
+}
+
+/*左侧导航栏*/
+.border_styleone {
+	border-top: 1px solid #ccc;
+}
+
+.float_left {
+	float: left;
+}
+
+.float_right {
+	float: right;
+}
+
+.leftnav_parentItem {
+	color: #4D4D4D;
+	font-size: 14px;
+	font-weight: 700;
+	border-bottom: 1px solid #CCC;
+	box-sizing: border-box
+}
+
+.out_span {
+	display: inline-block;
+	display: inline-block;
+	float: left;
+	width: 100%;
+	padding-left: 50px;
+}
