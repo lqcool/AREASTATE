@@ -19,7 +19,7 @@ import com.frame.service.landService.LandService;
 @RequestMapping("/landController")
 public class LandController {
 	@Autowired
-	private LandService landService;
+	private LandService landService; 
 	
 	@RequestMapping(value="/saveLand",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
     @ResponseBody
