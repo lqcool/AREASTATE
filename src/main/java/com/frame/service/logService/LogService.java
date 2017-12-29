@@ -5,7 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.frame.entity.log.Log;
-import com.frame.entity.myfile.MyFile;
 
 
 public interface LogService {

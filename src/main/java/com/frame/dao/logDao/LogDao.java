@@ -3,12 +3,10 @@ package com.frame.dao.logDao;
 import java.util.List;
 
 import com.frame.entity.log.Log;
-import com.frame.entity.myfolder.MyFolder;
 
 public interface LogDao {
 	public Log saveLog(Log log) throws Exception;
 	
-	List<MyFolder> findAllLogByUserId(Integer id) throws Exception;
 
 	Log findLogById(Integer id) throws Exception;
 

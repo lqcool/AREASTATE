@@ -1,5 +1,4 @@
 	//config配置模块
-	
 	require.config({
 		//baseUrl:用来指定加载模块的目录
 		//baseUrl:"js/injs",
@@ -11,13 +10,10 @@
 			"angular-ui-router":"../js/angular/angular-ui-router",
 			"ngload":"../js/angular/ngload",
 			"angularResource":"../js/angular/angular-resource",
-			"treeControl":"../js/angular-tree/angular-tree-control",
-			"ngFileUpload":"../js/ng-file-upload/ng-file-upload",
-			"ngFileUploadShim":"../js/ng-file-upload/ng-file-upload-shim",
 			"angularUIBootstrap":"../js/ui-bootstrap/ui-bootstrap-tpls-0.14.2",
 			"bootstrap":"../css/bootstrap/js/bootstrap.min",
-			"angularFileUpload":"../js/angular/angular-file-upload",
-			//"bootstrap-table":"../js/bootstrap-table/bootstrap-table",
+			'md5':"../js/md5/2.1/md5",
+			"allDirective":"../views/directive/js/allDirective"
 		},
 		//shim:是配置不兼容的模块。
 	    shim : {
@@ -29,17 +25,16 @@
 	        "ngload":["angularAMD"],
 	        "ngResource":["angular"],
 	        'angularResource': ['angular'],
-	        'treeControl':['angular'],
-	        'ngFileUpload':['angular'],
-	        'ngFileUploadShim':['angular'],
 	        'angularUIBootstrap':['angular'],
 	        'bootstrap':['jquery'],
 	        "angularFileUpload":["angular"],
-	        "bootstrap-table":["bootstrap"]
+	        "bootstrap-table":["bootstrap"],
+	        "allDirective":["angular"]
 	    },
 	    //deps:用来指定依赖模块，requireJS会加载这个文件并执行。
 	    deps : ['app']
 	});
+require( ['md5']);
 
 require(['jquery'],function($){
 	window.$ = $;

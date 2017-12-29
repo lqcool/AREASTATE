@@ -31,7 +31,7 @@ body {
 	font-size: 9pt;
 	font-family: \\5FAE\8F6F\96C5\9ED1, Tahoma, Geneva, sans-serif;
 	min-width: 750pt;
-	overflow: hidden;
+	/* overflow: hidden; */
 }
 
 img {

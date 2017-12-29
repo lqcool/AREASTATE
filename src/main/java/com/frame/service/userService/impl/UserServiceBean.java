@@ -21,6 +21,7 @@ import com.frame.entity.log.Log;
 import com.frame.entity.user.User;
 import com.frame.service.userService.UserService;
 import com.frame.util.ConfigUtil;
+import com.frame.util.Md5;
 import com.frame.util.PropertyUtil;
 
 @Service("userService")
@@ -87,6 +88,9 @@ public class UserServiceBean implements UserService{
 		}
 	}
 
+	/**
+	 * 验证用户，用户登陆
+	 */
 	@Override
 	public Map<String, Object> checkLoginUser(User user,HttpServletRequest request){
 		Map<String, Object> mesMap = new HashMap<String, Object>();
@@ -95,10 +99,10 @@ public class UserServiceBean implements UserService{
 			mesMap.put("mes", "用户名不存在");
 			mesMap.put("state", false);
 		}
-		else if(user.getLoginPwd() == user.getLoginPwd()){
+		else if((Md5.getMd5(extU.getLoginPwd())).equals(user.getLoginPwd())){
 			HttpSession session = request.getSession(true);
 			session.setAttribute("user", extU);
-			//sesison失效时间1分钟
+			//sesison失效时间15分钟
 			session.setMaxInactiveInterval(15*60);
 			//处理密码
 			extU.setLoginPwd("************");

@@ -59,4 +59,5 @@ public class UserController {
 	public void loginOut(HttpServletRequest request){
 		this.userService.loginOut(request);
 	}
+	
 }

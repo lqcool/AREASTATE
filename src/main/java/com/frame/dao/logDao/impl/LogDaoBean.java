@@ -10,8 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import com.frame.dao.logDao.LogDao;
 import com.frame.entity.log.Log;
-import com.frame.entity.myfile.MyFile;
-import com.frame.entity.myfolder.MyFolder;
 
 @Repository("logDao")
 public class LogDaoBean implements LogDao{
@@ -43,12 +41,6 @@ public class LogDaoBean implements LogDao{
 		Map paramMap= new HashMap<String, Object>();
 		String selectSql = namespace + ".getTotalItems";
 		return this.sqlSessionTemplate.selectOne(selectSql,paramMap);
-	}
-
-	@Override
-	public List<MyFolder> findAllLogByUserId(Integer id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

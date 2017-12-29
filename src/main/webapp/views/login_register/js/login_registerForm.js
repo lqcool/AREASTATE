@@ -16,6 +16,9 @@ controller("login_registeController",["$scope","$state","$cacheFactory","Registe
 	
 	//登陆
 	$scope.checkLoginUser = function(){
+		if($scope.user.loginPwd.length < 32){
+			$scope.user.loginPwd = hex_md5($scope.user.loginPwd);
+		}
 		RegisterAndLoginService.checkLoginUser($scope.user,suc,ero);
 		function suc(data, status, headers, config){
 			if(data.state === true){

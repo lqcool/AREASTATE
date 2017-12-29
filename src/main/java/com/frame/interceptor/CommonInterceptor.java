@@ -15,7 +15,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.frame.entity.user.User;
 /**
- * @author AbnerLi
+ * @author 李桥
  * 自定义拦截器，拦截请求，并进行登陆是否超时的验证
  */
 public class CommonInterceptor extends HandlerInterceptorAdapter{
@@ -45,7 +45,7 @@ public class CommonInterceptor extends HandlerInterceptorAdapter{
 		String url = requestUri.substring(contextPath.length());
 		//静态资源放行
 		if(url.endsWith(".js") || url.endsWith(".jpg") || url.endsWith(".png") || url.endsWith(".html") 
-				|| url.endsWith(".css")){
+				|| url.endsWith(".css")|| url.endsWith(".eot")|| url.endsWith(".svg")|| url.endsWith(".tff") || url.endsWith(".woff")){
 			return true;
 		}
 		//打印
