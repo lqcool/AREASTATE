@@ -1,41 +1,19 @@
-<!-- 
-<fieldset>
-	<table class="table table-bordered">
-		<caption>场地状态信息</caption>
-		<thead>
-			<tr>
-				<th></th>
-				<th>上午</th>
-				<th>下午</th>
-				<th>晚上</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>12月1日</td>
-				<td>已锁定</td>
-				<td>已分配</td>
-				<td>已锁定</td>
-			</tr>
-			<tr>
-				<td>12月2日</td>
-				<td>已锁定</td>
-				<td>已分配</td>
-				<td>已锁定</td>
-			</tr>
-			<tr>
-				<td>12月3日</td>
-				<td>已锁定</td>
-				<td>已分配</td>
-				<td>已锁定</td>
-			</tr>
-		</tbody>
-	</table>
-</fieldset> -->
-
-<fieldset ng-init="init()" style="padding: 25px;">
+<fieldset ng-init="init()">
 	<legend style="font-size: 14px;">用地信息</legend>
-	<table class="table table-bordered">
+	<div class="row search_div">
+		<div class="col-xs-2" style="text-align: left;">
+			<button class="layui_btn mgl-20" style="margin-left: 10px;"
+				ng-click="toAddForm()">新建用地</button>
+		</div>
+		<div class="col-xs-5 col-md-offset-5">
+			<input class="form-control" type="text" ng-model="searchCondition"
+				placeholder="请输入搜索条件"
+				style="width: 40%; display: inline-block; height: 30px;" />
+			<button class="layui_btn mgl-20" style="margin-left: 10px;"
+				ng-click="initalPageList()">查询</button>
+		</div>
+	</div>
+	<table class="table table-bordered" style="margin-bottom: 0px;">
 		<!-- <caption>用地信息</caption> -->
 		<thead>
 			<tr>
@@ -43,16 +21,38 @@
 				<th>用地名称</th>
 				<th>用地面积</th>
 				<th>用地状态</th>
-				<th style="    width: 150px;">操作</th>
+				<th style="width: 150px;">操作</th>
 			</tr>
 		</thead>
 		<tbody>
+			<tr ng-if="landList.length == 0">
+				<td colspan="5"
+					style="text-align: center; height: 100px; line-height: 100px">暂无相关信息</td>
+			</tr>
 			<tr ng-repeat="land in landList">
 				<td>{{land.code}}</td>
 				<td>{{land.landName}}</td>
 				<td>{{land.landAreas}}</td>
 				<td>{{land.landState}}</td>
-				<td><a ng-click="displayLand(land.id)">查看</a>&nbsp;&nbsp;&nbsp;<a ng-click="editLand(land.id)">编辑</a>&nbsp;&nbsp;&nbsp;<a ng-click="deleteLand(land.id)">删除</a></td>
+				<td><a ng-click="displayLand(land.id)">查看</a>&nbsp;&nbsp;&nbsp;<a
+					ng-click="editLand(land.id)">编辑</a>&nbsp;&nbsp;&nbsp;<a
+					ng-click="deleteLand(land.id)">删除</a></td>
+			</tr>
+			<tr ng-if="landList.length != 0">
+				<td colspan="8" class="pagetd">
+										每页显示
+					<select ng-model="$parent.pageSize" ng-change="changePageSize()">
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="15">15</option>
+					</select>
+					条&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					第<span>{{currentPage}}</span>页&nbsp;&nbsp;共<span>{{totalPage}}</span>页&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<button class="page_button" ng-click="firstPage()">首页</button>
+					<button class="page_button" ng-click="lastPage()">上一页</button>{{currentPage}}/{{totalPage}}
+					<button class="page_button" ng-click="nextPage()">下一页</button>
+					<button class="page_button" ng-click="endPage()">尾页</button>
+				</td>
 			</tr>
 		</tbody>
 	</table>

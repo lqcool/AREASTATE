@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.frame.entity.land.Land;
+import com.frame.entity.user.User;
 
 public interface LandService {
 	public Land  saveLand(Land land, HttpServletRequest request);
@@ -17,4 +18,11 @@ public interface LandService {
 	Land updateLand(Land land, HttpServletRequest request);
 	
 	List<Land> findAllLands(HttpServletRequest request);
+	
+	List<Land> findAllLandsByState(HttpServletRequest request);
+
+	List<Land> getSearchPageList(Integer pageIndex, Integer pageSize,
+			String searchCondition, HttpServletRequest request);
+
+	int getSearchTotalItems(String searchCondition, HttpServletRequest request);
 }

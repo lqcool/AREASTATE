@@ -1,53 +1,54 @@
 angular.module("personnalModule",[])
-.controller("personnalCenterController",["$scope","$state","$stateParams","RegisterAndLoginService",function($scope,$state,$stateParams,RegisterAndLoginService){
-	$scope.id = $stateParams.id;
-	$scope.oldPwd = "";
-	$scope.newPwd = "";
+.controller("personnalCenterController",["$scope","$state","RegisterAndLoginService",function($scope,$state,RegisterAndLoginService){
+
 	$scope.init = function(){
-		RegisterAndLoginService.findUserById($scope.id,suc,ero);
+		var user=JSON.parse(sessionStorage.getItem("currentUser"));
+		$("#loading").modal("show");
+		RegisterAndLoginService.findUserById(user.id,suc,ero);
 		function suc(data){
 			$scope.user = data;
+			$("#loading").modal("hide");
 		}
 		function ero(error){
-			console.log(error);
+			$("#errorhapen").modal("show");
 		}
 	}
 	
-	$scope.canEdit = function(){
-		$scope.canedit = true;
-	}
-	
-	$scope.back = function(){
-		$state.go("main",{reload:true});
-	}
-	
-	$scope.updateUser = function(){
-		if($scope.oldPwd!=$scope.user.loginPwd){
-			alert("旧密码输入不正确");
-			return;
+	$scope.changePwd = function(){
+		var user=JSON.parse(sessionStorage.getItem("currentUser"));
+		if($scope.oldPwd.length < 32){
+			$scope.oldPwd = hex_md5($scope.oldPwd);
 		}
-		else if($scope.newPwd === ""){
-			alert("密码不能为空");
-			return ;
-		}
-		else {
-			$scope.user.loginPwd = $scope.newPwd;
-			RegisterAndLoginService.updateUser($scope.user,suc,ero);
-			
-			function suc(data){
-				if(data!=null){
-					alert("修改成功");
+		RegisterAndLoginService.changePwd(user.id,$scope.oldPwd,$scope.newPwd,suc,ero);
+		function suc(data){
+			if(data.state==true){
+				alert(data.mes);
+				RegisterAndLoginService.loginOut(suc1,ero1);
+				function suc1(dat){
 					$state.go("login");
 				}
-				else{
-					alert("修改失败，请联系管理员");
+				function ero1(esr){
+					alert(esr);
 				}
 			}
-			
-			function ero(error){
-				console.log(error);
+			else{
+				alert(data.mes);
 			}
 		}
-		
+		function ero(error){
+			$("#errorhapen").modal("show");
+		}
 	}
+	
+	$scope.toLandStateList = function(){
+		$state.go("main.landStateList");
+	}
+	
+	$scope.modifyInformation=function(){
+		$state.go("main.personnalCenterEditForm");
+	}
+	$scope.modifyPassword=function(){
+		$state.go("main.personnalCenterModifyPass");
+	}
+	
 }]);

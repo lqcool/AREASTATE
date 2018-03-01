@@ -241,6 +241,7 @@ button {
 	font-size: 13px;
 	font-family: "微软雅黑";
 }
+
 .content .con_right ul .con_r_right p .mima {
 	float: left;
 	padding-left: 5px;
@@ -351,4 +352,119 @@ button {
 
 .content .con_right .con_r_top {
 	*height: 90px;
+}
+
+/**个人信息中心展示*/
+#person_containner {
+	width: 100%;
+	height: 100%;
+	border: 1px solid #e5e5e5;
+	padding: 10px;
+}
+
+#personal_information {
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.personal_info {
+	margin-left: 15%;
+	display: inline-block;
+	margin-top: 2%;
+}
+
+.personal_me {
+	width: 20%;
+	display: inline-block;
+	padding-left: 1%;
+	margin-top: 2%;
+	vertical-align: top;
+	word-break: keep-all;
+}
+
+.personal_modification {
+	padding-left: 68%;
+	padding-top: 8%;
+	padding-bottom: 2%;
+}
+/**个人信息修改**/
+#personnal_edit_containner {
+	border: 1px solid #e5e5e5;
+	padding: 10px;
+}
+
+#personnal_edit_modify {
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.personnal_edit_form {
+	display: inline-block !important;
+	width: 28% !important;
+	margin-top: 2%;
+}
+
+.personnal_edit_label {
+	margin-left: 10%;
+	margin-right: 2%;
+}
+
+.personnal_edit_button {
+	margin-top: 5%;
+	position: relative;
+	left: 68%;
+}
+/***修改密码**/
+#personnal_containner_pass {
+	margin: 1px auto;
+	height: 100px;
+	background-color: red;
+}
+
+.personnal_miodifyPassw {
+	width: 32% !important;
+	display: unset !important;
+	margin-top: 2%;
+}
+
+.personnal_miodifyPasswButton {
+	margin-top: 4%;
+}
+
+#personnal_xx_passd{
+	color:red;
+}
+/***个人注册**/
+.regist_need {
+	color: red;
+}
+.regist_xx_font {
+	color: rgb(51, 51, 51);
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	border-bottom-color: rgb(46, 85, 142);
+}
+
+.regist_xx_font1 {
+	height: 33px;
+	line-height: 33px;
+	margin-bottom: 20px;
+}
+
+.regist_xx_font2 {
+	display: inline-block;
+	width: 89px;
+	height: 33px;
+	line-height: 33px;
+	float: left;
+}
+
+.regist_xx_font3 {
+	display: inline-block;
+	height: 33px;
+	line-height: 33px;
+	margin-right: 20px;
+	float: right
+}
+
+.regist_xx_userName_true {
+	border: 1px solid red !important;
 }

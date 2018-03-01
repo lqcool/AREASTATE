@@ -1,0 +1,40 @@
+<form class="form-horizontal" role="form" ng-init="init()" style="border:1px solid #e5e5e5">
+	<fieldset
+		style="padding: 25px;">
+		<legend class="legend" data-toggle="collapse" href="#baseInfo"
+			style="cursor: pointer">
+			<span style="padding-left: 15px; font-size: 14px;">基础信息</span>
+		</legend>
+		<div id="baseInfo" class="row collapse in">
+			<div class="form-group col-md-6">
+				<label class="col-md-4 control-label">编码</label>
+				<div class="col-md-8 value-display" style="padding-top: 7px;">
+					<span>{{land.code}}</span>
+				</div>
+			</div>
+			<div class="form-group col-md-6">
+				<label class="col-md-4 control-label">用地名称</label>
+				<div class="col-md-8 value-display" style="padding-top: 7px;">
+					<span>{{land.landName}}</span>
+				</div>
+			</div>
+			<div class="form-group col-md-6">
+				<label class="col-md-4 control-label">用地面积</label>
+				<div class="col-md-8 value-display" style="padding-top: 7px;">
+					<span>{{land.landAreas}}</span>
+				</div>
+			</div>
+			<div class="form-group col-md-6">
+				<label class="col-md-4 control-label">用地状态</label>
+				<div class="col-md-8 value-display" style="padding-top: 7px;">
+					<span>{{land.landState}}</span>
+				</div>
+			</div>
+		</div>
+		<div class="btn-group formBtnGroup col-md-offset-10"
+			style="margin-top: 70px;">
+			<button class="btn btn-sm" ng-click="cancel()">返回</button>
+		</div>
+	</fieldset>
+
+</form>

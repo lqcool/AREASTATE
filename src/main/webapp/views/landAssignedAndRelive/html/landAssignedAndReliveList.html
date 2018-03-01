@@ -1,0 +1,61 @@
+<fieldset ng-init="init()">
+	<legend style="font-size: 14px;">用地锁定审核列表</legend>
+	<div class="row search_div">
+		<div class="col-xs-5 col-md-offset-7">
+			<input class="form-control" type="text" ng-model="searchCondition"
+				placeholder="请输入搜索条件"
+				style="width: 40%; display: inline-block; height: 30px;" />
+			<button class="layui_btn mgl-20" style="margin-left: 10px;" ng-click="initalPageList()">查询</button>
+		</div>
+	</div>
+	<table class="table table-bordered" style="margin-bottom: 0px;">
+		<thead>
+			<tr>
+				<th>编码</th>
+				<th>申请场地</th>
+				<th>申请使用日期</th>
+				<th style="width:190px">申请时间段</th>
+				<th>联系电话</th>
+				<th>状态</th>
+				<th>提交时间</th>
+				<th style="width: 15%;">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-if="lockingRecordList.length == 0">
+				<td colspan="8"
+					style="text-align: center; height: 100px; line-height: 100px">暂无相关信息</td>
+			</tr>
+			<tr ng-repeat="lockingRecord in lockingRecordList">
+				<td title="{{lockingRecord.mes}}">{{lockingRecord.code}}</td>
+				<td title="{{lockingRecord.mes}}">{{lockingRecord.land.landName}}</td>
+				<td title="{{lockingRecord.mes}}">{{lockingRecord.lockDate|date:'yyyy-MM-dd'}}</td>
+				<td class="wrap_td" title="{{lockingRecord.mes}}">{{lockingRecord.timeQuantum}}</td>
+				<td title="{{lockingRecord.mes}}">{{lockingRecord.user.tel}}</td>
+				<td title="{{lockingRecord.mes}}">{{lockingRecord.state}}</td>
+				<td title="{{lockingRecord.mes}}">{{lockingRecord.submitDate|date:'yyyy-MM-dd'}}</td>
+				<td><a ng-click="displayLockingRecord(lockingRecord.code)">查看</a>&nbsp;&nbsp;&nbsp;<a
+					ng-if='lockingRecord.state != "已废除"&&lockingRecord.state != "已分配"&&lockingRecord.state != "已过期"'
+					ng-click="updateLockingRecorderState(lockingRecord.code,'已分配')">分配</a>&nbsp;&nbsp;&nbsp;<a
+					ng-if='lockingRecord.state != "已废除"&&lockingRecord.state != "已分配"&&lockingRecord.state != "已过期"'
+					ng-click="updateLockingRecorderState(lockingRecord.code,'已废除')">解除占用</a></td>
+			</tr>
+			<tr ng-if="lockingRecordList.length != 0">
+				<td colspan="8" class="pagetd">
+										每页显示
+					<select ng-model="$parent.pageSize" ng-change="init()">
+						<option>5</option>
+						<option>10</option>
+						<option>15</option>
+					</select>
+					条&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					第<span>{{currentPage}}</span>页&nbsp;&nbsp;共<span>{{totalPage}}</span>页&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<button class="page_button" ng-click="firstPage()">首页</button>
+					<button class="page_button" ng-click="lastPage()">上一页</button>{{currentPage}}/{{totalPage}}
+					<button class="page_button" ng-click="nextPage()">下一页</button>
+					<button class="page_button" ng-click="endPage()">尾页</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</fieldset>

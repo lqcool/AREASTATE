@@ -14,4 +14,11 @@ public interface LandDao {
 	Land updateLand(Land Land) throws Exception;
 	
 	public List<Land> findAllLands() throws Exception;
+	
+	public List<Land> findAllLandsByState() throws Exception;
+
+	public List<Land> getSearchPageList(Integer pageIndex, Integer pageSize,
+			String searchCondition) throws Exception;
+
+	public int getSearchTotalItems(String searchCondition) throws Exception;
 }

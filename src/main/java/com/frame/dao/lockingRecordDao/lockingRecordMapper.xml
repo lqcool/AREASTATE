@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frame.dao.lockingRecordDao.lockingRecordDaoMapper">
+
+	<insert id="addLockingRecord" parameterType="com.frame.entity.lockingRecord.LockingRecord">
+		insert into
+		LockingRecord(userId,lockDate,timeQuantum,landId,state,submitDate,code)
+		values(#{user.id},#{lockDate},#{timeQuantum},#{land.id},#{state},#{submitDate},#{code})
+	</insert>
+
+	<insert id="updateLockingRecordState" parameterType="com.frame.entity.lockingRecord.LockingRecord">
+		UPDATE
+		lockingrecord set state = '已过期' where date_sub(now(), INTERVAL 1 DAY)
+		> lockingrecord.lockDate;
+	</insert>
+
+	<insert id="updateLockingRecord" parameterType="com.frame.entity.lockingRecord.LockingRecord">
+		update lockingRecord
+		<set>
+			<if test="user != null">lockingRecord.userId=#{user.id},</if>
+			<if test="lockDate != null">lockingRecord.lockDate=#{lockDate},</if>
+			<if test="timeQuantum != null">lockingRecord.timeQuantum=#{timeQuantum},</if>
+			<if test="land != null">lockingRecord.land=#{land.id},</if>
+			<if test="state != null">lockingRecord.state=#{state},</if>
+			<if test="submitDate != null">lockingRecord.submitDate=#{submitDate},</if>
+			<if test="code != null">lockingRecord.code=#{code},</if>
+		</set>
+		where LockingRecord.id=#{id}
+	</insert>
+
+	<insert id="updateLockingRecorderState" parameterType="hashmap">
+		update lockingRecord
+		<set>
+			<if test="state != null">lockingRecord.state=#{state},</if>
+		</set>
+		where LockingRecord.code=#{code}
+	</insert>
+
+	<resultMap type="com.frame.entity.lockingRecord.LockingRecord"
+		id="resultListLockingRecord">
+		<id column="id" property="id" />
+		<result column="lockDate" property="lockDate" javaType="java.util.Date" />
+		<result column="timeQuantum" property="timeQuantum" />
+		<result column="state" property="state" />
+		<result column="userTel" property="userTel" />
+		<result column="submitDate" property="submitDate" javaType="java.util.Date" />
+		<result column="code" property="code" />
+		<association column="landId" property="land"
+			select="com.frame.dao.landDao.LandMapper.findLandById"></association>
+		<association column="userId" property="user"
+			select="com.frame.dao.userDao.UserMapper.findUserById"></association>
+	</resultMap>
+
+	<select id="findLockingRecordById" parameterType="Integer"
+		resultMap="resultListLockingRecord">
+		SELECT * FROM lockingRecord where lockingRecord.id=#{id}
+	</select>
+	
+	<select id="findLockingRecordByCode" parameterType="String"
+		resultMap="resultListLockingRecord">
+		SELECT * FROM lockingRecord where lockingRecord.code=#{code}
+	</select>
+	
+	<select id="findAllLockingRecordsByUserId" parameterType="Integer"
+		resultMap="resultListLockingRecord">
+		SELECT * FROM lockingRecord
+		where lockingrecord.userId =
+		#{userId}
+		ORDER BY submitDate ASC
+	</select>
+
+	<select id="findAllLockingRecords" resultMap="resultListLockingRecord">
+		SELECT * FROM
+		lockingRecord ORDER BY submitDate ASC
+	</select>
+
+	<select id="findLockingRecordsByLandId" parameterType="hashmap"
+		resultMap="resultListLockingRecord">
+		select * from lockingrecord
+		where lockingrecord.landId =
+		#{landId}
+		and lockingrecord.state != "已废除"
+		and lockingrecord.state !=
+		"已过期"
+		and
+		date_add(now(), INTERVAL #{displayDay} DAY) >
+		lockingrecord.lockDate
+		and lockingrecord.lockDate > date_sub(now(),
+		INTERVAL 1 DAY)
+	</select>
+
+	<select id="getSearchPageList" resultMap="resultListLockingRecord">
+		SELECT
+		lockingrecord.id,lockingrecord.userId,lockingrecord.lockDate,GROUP_CONCAT(DATE_FORMAT(lockingrecord.lockDate,'%Y-%m-%d'),lockingrecord.timeQuantum,'') AS
+		timeQuantum,lockingrecord.landId,lockingrecord.state,lockingrecord.submitDate,lockingrecord.`code`
+		FROM `lockingrecord` where lockingrecord.code like binary
+		#{searchCondition} or lockingrecord.lockDate like binary
+		#{searchCondition} or
+		lockingrecord.timeQuantum like binary
+		#{searchCondition} or
+		lockingrecord.state like binary
+		#{searchCondition} GROUP BY
+		lockingrecord.`code` ORDER BY submitDate DESC limit
+		#{startIndex},#{pageSize}
+	</select>
+	<select id="getCurUsrSearchPageList" resultMap="resultListLockingRecord">
+		SELECT
+		lockingrecord.id,lockingrecord.userId,lockingrecord.lockDate,GROUP_CONCAT(DATE_FORMAT(lockingrecord.lockDate,'%Y-%m-%d'),lockingrecord.timeQuantum,'') AS
+		timeQuantum,lockingrecord.landId,lockingrecord.state,lockingrecord.submitDate,lockingrecord.`code`
+		FROM `lockingrecord` where (lockingrecord.userId=#{user}) and
+		(lockingrecord.code like binary
+		#{searchCondition} or
+		lockingrecord.lockDate like binary #{searchCondition} or
+		lockingrecord.timeQuantum like binary #{searchCondition} or
+		lockingrecord.state like binary #{searchCondition}) GROUP BY
+		lockingrecord.`code` ORDER BY
+		submitDate DESC limit
+		#{startIndex},#{pageSize}
+	</select>
+	<select id="getSearchTotalItems" resultType="int">
+		SELECT count(1) FROM (SELECT count(1) FROM
+		lockingrecord where lockingrecord.code like binary
+		#{searchCondition}
+		or lockingrecord.lockDate like binary #{searchCondition} or
+		lockingrecord.timeQuantum like binary #{searchCondition} or
+		lockingrecord.state like binary #{searchCondition} GROUP BY lockingrecord.code) v
+	</select>
+
+	<select id="getCurUsrSearchTotalItems" resultType="int">
+		SELECT
+		count(1) From( SELECT count(1) FROM
+		lockingrecord where lockingrecord.userId=#{user} and
+		(lockingrecord.code like binary
+		#{searchCondition} or
+		lockingrecord.lockDate like binary #{searchCondition} or
+		lockingrecord.timeQuantum like binary #{searchCondition} or
+		lockingrecord.state like binary #{searchCondition}) GROUP BY lockingrecord.code) v
+	</select>
+
+	<select id="deleteLockingRecord" parameterType="Integer"
+		resultType="int">
+		delete FROM lockingRecord where lockingRecord.id = #{id}
+	</select>
+</mapper>

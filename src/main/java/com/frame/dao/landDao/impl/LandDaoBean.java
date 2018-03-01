@@ -56,5 +56,35 @@ public class LandDaoBean implements LandDao{
 		List<Land> lands = this.sqlSessionTemplate.selectList(selectSql);
 		return lands;
 	}
+
+	@Override
+	public List<Land> findAllLandsByState() throws Exception {
+		String selectSql = namespace + ".findAllLandsByState";
+		List<Land> lands = this.sqlSessionTemplate.selectList(selectSql);
+		return lands;
+	}
+	
+	@Override
+	public List<Land> getSearchPageList(Integer pageIndex,
+			Integer pageSize, String searchCondition)
+					throws Exception {
+		
+		String selectSql = namespace + ".getSearchPageList";
+		Map paramMap= new HashMap<String, Object>();
+		int startIndex = pageSize * (pageIndex - 1);
+		paramMap.put("startIndex", startIndex);
+		paramMap.put("pageSize", pageSize);
+		paramMap.put("searchCondition", "%" + searchCondition + "%");
+		return this.sqlSessionTemplate.selectList(selectSql, paramMap);
+	}
+
+	@Override
+	public int getSearchTotalItems(String searchCondition)
+			throws Exception {
+		String selectSql = namespace + ".getSearchTotalItems";
+		Map paramMap= new HashMap<String, Object>();
+		paramMap.put("searchCondition", "%" + searchCondition + "%");
+		return this.sqlSessionTemplate.selectOne(selectSql,paramMap);
+	}
 	
 }

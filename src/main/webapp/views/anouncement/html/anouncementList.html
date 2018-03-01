@@ -1,0 +1,84 @@
+<fieldset ng-init="init()">
+	<legend style="font-size: 14px;">公告记录</legend>
+	<div class="row search_div">
+		<div class="col-xs-2" style="text-align: left;"
+			ng-if="usr.role=='admin'">
+			<button class="layui_btn mgl-20" style="margin-left: 10px;"
+				ng-click="toAddForm()">新建公告</button>
+		</div>
+		<div class="col-xs-2" ng-if="usr.role=='user'"></div>
+		<div class="col-xs-5 col-md-offset-5">
+			<input class="form-control" type="text" ng-model="searchCondition"
+				placeholder="请输入搜索条件"
+				style="width: 40%; display: inline-block; height: 30px;" />
+			<button class="layui_btn mgl-20" style="margin-left: 10px;"
+				ng-click="initalPageList()">查询</button>
+		</div>
+	</div>
+	<table class="table table-bordered" style="margin-bottom: 0px;">
+		<thead>
+			<tr>
+				<th>公告标题</th>
+				<th style="width: 190px">公告内容</th>
+				<th>紧急程度</th>
+				<th>提交日期</th>
+				<th>公告状态</th>
+				<th>最新发布日期</th>
+				<th style="width: 220px;">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-if="anouncementList.length == 0">
+				<td colspan="6"
+					style="text-align: center; height: 100px; line-height: 100px">暂无相关信息</td>
+			</tr>
+			<tr ng-repeat="anouncement in anouncementList">
+				<td>{{anouncement.anouncementTitle}}</td>
+				<td title="{{anouncement.anouncementContent}}" class="wrap_td">{{anouncement.anouncementContent}}</td>
+				<td>{{anouncement.urgency}}</td>
+				<td>{{anouncement.inputDate|date:'yyyy-MM-dd'}}</td>
+				<td>{{anouncement.anouncementState}}</td>
+				<td>{{anouncement.publishDate|date:'yyyy-MM-dd'}}</td>
+				<td><a ng-click="displayAnouncement(anouncement)">预览</a>&nbsp;&nbsp;<a
+					ng-click="publish(anouncement)"
+					ng-if="anouncement.anouncementState!='已发布'&& usr.role=='admin' && usr.loginNo==anouncement.user.loginNo">发布</a>&nbsp;&nbsp;<a
+					ng-click="editAnouncement(anouncement.id)"
+					ng-if="usr.role=='admin' && usr.loginNo==anouncement.user.loginNo">编辑</a>&nbsp;&nbsp;<a
+					ng-click="deleteAnouncement(anouncement.id)"
+					ng-if="usr.role=='admin' && usr.loginNo==anouncement.user.loginNo">删除</a></td>
+			</tr>
+			<tr ng-if="anouncementList.length != 0">
+				<td colspan="8" class="pagetd">
+					每页显示 <select ng-model="$parent.pageSize" ng-change="init()">
+						<option>5</option>
+						<option>10</option>
+						<option>15</option>
+				</select> 条&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第<span>{{currentPage}}</span>页&nbsp;&nbsp;共<span>{{totalPage}}</span>页&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<button class="page_button" ng-click="firstPage()">首页</button>
+					<button class="page_button" ng-click="lastPage()">上一页</button>{{currentPage}}/{{totalPage}}
+					<button class="page_button" ng-click="nextPage()">下一页</button>
+					<button class="page_button" ng-click="endPage()">尾页</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</fieldset>
+
+<!-- 公告查看框 -->
+<div class="modal fade bs-example-modal-sm" id="anouncementWindow1"
+	tabindex="-1" role="dialog" aria-labelledby="anouncement1"
+	aria-hidden="true" data-backdrop="static">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header anouncementhead" id="mestype1">
+				<h4 class="modal-title" id="anouncementTitle1"></h4>
+			</div>
+			<div class="modal-body" id="anouncementContent1"
+				style="padding: 30px;"></div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal"
+					id="knowthatbtn1">关闭</button>
+			</div>
+		</div>
+	</div>
+</div>

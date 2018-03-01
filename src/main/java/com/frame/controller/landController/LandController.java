@@ -1,6 +1,8 @@
 package com.frame.controller.landController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,7 +20,7 @@ import com.frame.service.landService.LandService;
 @Controller
 @RequestMapping("/landController")
 public class LandController {
-	@Autowired
+	@Autowired 
 	private LandService landService; 
 	
 	@RequestMapping(value="/saveLand",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
@@ -50,6 +52,27 @@ public class LandController {
     @ResponseBody
     public List<Land> findAllLands(HttpServletRequest request){
     	return this.landService.findAllLands(request);
+    }
+    
+    @RequestMapping(value="/findAllLandsByState",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public List<Land> findAllLandsByState(HttpServletRequest request){
+    	return this.landService.findAllLandsByState(request);
+    }
+    
+    @RequestMapping(value="/getSearchPageList",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public Map<String,Object> getSearchPageList(@RequestParam(value="pageIndex") Integer pageIndex,@RequestParam(value="pageSize") Integer pageSize,@RequestParam(value="searchCondition") String searchCondition, HttpServletRequest request){
+    	Map<String, Object> resultMap = new HashMap<String, Object>();
+    	resultMap.put("totalItems", this.landService.getSearchTotalItems(searchCondition, request));
+    	resultMap.put("pageList", this.landService.getSearchPageList(pageIndex, pageSize, searchCondition, request));
+    	return resultMap;
+    }
+    
+    @RequestMapping(value="/getSearchTotalItems",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public int getSearchTotalItems(@RequestParam(value="searchCondition") String searchCondition, HttpServletRequest request){
+    	return this.landService.getSearchTotalItems(searchCondition, request);
     }
     
 }

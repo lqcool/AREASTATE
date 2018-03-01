@@ -1,0 +1,42 @@
+<fieldset ng-init="init()">
+	<div id="personnal_edit_containner">
+		<div id="personnal_edit_modify">个人信息修改</div>
+
+		<div>
+			<!-- 绑定值 -->
+			<label class="personnal_edit_label">姓&nbsp;&nbsp;&nbsp;&nbsp;名:</label><input
+				class="form-control personnal_edit_form" type="text"
+				ng-model="currentUser.userName" maxlength="10"> <label
+				class="personnal_edit_label">账&nbsp;&nbsp;&nbsp;&nbsp;号:</label><input
+				class="form-control personnal_edit_form" type="text"
+				ng-model="currentUser.loginNo" maxlength="15" readonly="readonly">
+		</div>
+
+		<div>
+			<label class="personnal_edit_label">电&nbsp;&nbsp;&nbsp;&nbsp;话:</label><input
+				ng-model="currentUser.tel" class="form-control personnal_edit_form"
+				maxlength="13" type="text"> <label
+				class="personnal_edit_label">职工号:</label><input
+				ng-model="currentUser.employeeNo"
+				class="form-control personnal_edit_form" type="text" maxlength="20">
+		</div>
+
+		<div>
+			<label class="personnal_edit_label">邮&nbsp;&nbsp;&nbsp;&nbsp;箱:</label><input
+				ng-model="currentUser.email"
+				class="form-control personnal_edit_form" type="text" maxlength="20">
+			<label class="personnal_edit_label">地&nbsp;&nbsp;&nbsp;&nbsp;址:</label><input
+				ng-model="currentUser.address"
+				class="form-control personnal_edit_form" type="text" maxlength="30">
+		</div>
+
+
+		<div class="personnal_edit_button">
+			<button type="button" class="btn btn-info btn-sm"
+				ng-click="updateUser()">确认修改</button>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<button type="button" class="btn btn-default btn-sm"
+				ng-click="goAim()">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+		</div>
+	</div>
+</fieldset>

@@ -1,0 +1,41 @@
+<form class="form-horizontal" role="form" ng-init="init()" style="border:1px solid #e5e5e5">
+	<fieldset style="padding: 25px;">
+		<legend style="font-size: 14px;">申请信息录入</legend>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">申请场地</label>
+			<div class="col-sm-4">
+				<select id="landSelect" class="form-control" ng-model="lockingRecord.land" ng-options = "land.landName for land in lands" required>
+				</select>
+			</div>
+			
+			<label class="col-sm-2 control-label">申请使用日期</label>
+			<div class="col-sm-4">
+				<select id="lockDateSelect" class="form-control" ng-model="lockingRecord.lockDate" required>
+					<option ng-repeat="lockDate in landDailyStatesDate" ng-selected="{{$index==0}}" value="{{lockDate.date}}">
+					{{lockDate.text}}</option>
+				</select>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label">申请时间段</label>
+			<div class="col-sm-4">
+				<input ng-if="landDailyStatesTimeQuantum.length == 0" class="form-control ng-pristine ng-valid ng-touched" type="text"  value="当天无可用时段" disabled="disabled">
+				<select ng-if="landDailyStatesTimeQuantum.length != 0" id="timeQuantumSelect" class="form-control" ng-model="lockingRecord.timeQuantum" required>
+					<option ng-repeat="timeQuantum in landDailyStatesTimeQuantum" ng-selected="{{$index==0}}" value="{{timeQuantum}}">
+					{{timeQuantum}}</option>
+				</select>
+			</div>
+		</div>
+		
+		<div class="form-group" style="margin-top: 70px;">
+			<div class="col-sm-8">
+			</div>
+			<div class="col-sm-4">
+				<button type="button" class="btn btn-info btn-sm" ng-click="saveLockingRecord()">提&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;交</button>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<button type="button" class="btn btn-default btn-sm" ng-click="cancel()">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+			</div>
+		</div>
+	</fieldset>
+</form>

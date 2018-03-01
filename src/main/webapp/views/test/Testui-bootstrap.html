@@ -3,49 +3,124 @@
 <head>
 <meta charset="UTF-8">
 <title>测试ui-bootstrap</title>
-<link type="text/css"
-	href="/AREASTATE/css/bootstrap/css/bootstrap.css"
+<link type="text/css" href="/AREASTATE/css/bootstrap/css/bootstrap.css"
 	rel="stylesheet">
-<script type="text/javascript" src="/AREASTATE/js/angular/angular.js"></script>
 <script type="text/javascript"
-	src="/AREASTATE/js/ui-bootstrap/ui-bootstrap-tpls.js"></script>
-<script type="text/javascript" src="/AREASTATE/js/ui-bootstrap/ui-bootstrap.js"></script>
+	src="/AREASTATE/js/jquery-2.1.1/jquery.js"></script>
+<script type="text/javascript" src="/AREASTATE/js/angular/angular.js"></script>
 <script type="text/javascript">
-	angular.module('modeOne', ['ui.bootstrap']).controller('UiController', ["$scope","$uibModal",function ($scope, $uibModal) {
-		//打开dialog的函数
-		$scope.openDialog = function(){
-			$modal.open({
-		        templateUrl:"myModalContent.html",//dialog的id，与html建立的template的id一致
-				controller:"ModalController"//指定dialog的controller
-			});
-		};
-	}]).controller("ModalController",function($scope, $modalInstance){
-		//定义dialog中的确认按钮的点击事件的处理函数
-		$scope.ok = function(){
-		$modalInstance.close();//
-		};
-		//定义dialog中的取消按钮的点击事件的处理函数
-		$scope.cancel = function(){
-		$modalInstance.dismiss('cancel');
-		    }
-		});
+	angular.module('modeOne', []).controller('UiController',
+			[ "$scope", function($scope) {
+				//打开dialog的函数
+				$scope.openDialog = function() {
+					$modal.open({
+						templateUrl : "myModalContent.html",//dialog的id，与html建立的template的id一致
+						controller : "ModalController"//指定dialog的controller
+					});
+				};
+
+				$scope.expandSubMenu = function(self) {
+					var target = $(self.target);
+					var ngClickEle = target.parent(".ev");
+					var subMenuEle = ngClickEle.next();
+					subMenuEle.slideToggle("fast");
+					$(".sub").not(subMenuEle).slideUp("fast");
+				};
+
+				$scope.items = [ {
+					"name" : "系统配置",
+					"url" : "",
+					childItems : [ {
+						"name" : "系统参数配置管理",
+						"url" : ""
+					} ]
+				}, {
+					"name" : "用地管理",
+					"url" : "",
+					childItems : [ {
+						"name" : "用地列表",
+						"url" : "main.landList"
+					}, {
+						"name" : "新建用地",
+						"url" : "main.landAddForm"
+					} ]
+				}, {
+					"name" : "用地状态一览表",
+					"url" : "",
+					childItems : [ {
+						"name" : "用地状态列表",
+						"url" : "main.landStateList"
+					} ]
+				}, {
+					"name" : "用地分配与解除",
+					"url" : "",
+					childItems : [ {
+						"name" : "用地分配与解除管理",
+						"url" : ""
+					} ]
+				}, {
+					"name" : "个人中心",
+					"url" : "",
+					childItems : [ {
+						"name" : "个人信息维护",
+						"url" : ""
+					} ]
+				}, {
+					"name" : "我的用地锁定记录",
+					"url" : "",
+					childItems : [ {
+						"name" : "我的用地锁定记录管理",
+						"url" : ""
+					} ]
+				} ];
+			} ]);
 </script>
+
+<style>
+.pli {
+	list-style: none;
+	border-bottom: 1px solid #ccc;
+	color: #4D4D4D;
+	font-size: 14px;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.sli {
+	text-align: center;
+	height: 30px;
+	line-height: 30px;
+	list-style: none;
+	font-size: 14px;
+	font-weight: 400;
+	border-top: 1px solid #ccc;
+}
+
+.sli:HOVER {
+	background: #be4708;
+	color:white;
+}
+</style>
 </head>
-<body ng-app="modeOne">
-	<div ng-controller="UiController">
-		<button ng-click="openDialog()" class="btn btn-default">打开弹出窗口</button>
+<body ng-app="modeOne" ng-controller="UiController">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-2" style="padding: 0px; border: 1px solid #ccc">
+				<ul style="padding: 0px;">
+					<li ng-repeat="item in items" class="pli">
+						<div ng-click="expandSubMenu($event)" class="ev"
+							style="padding-left: 20px;">
+							<span
+								style="text-align: left; display: inline-block; height: 40px; line-height: 40px; width: 85%;">{{item.name}}</span><span
+								class="glyphicon glyphicon-chevron-right"> </span>
+						</div>
+						<ul style="padding: 0px; display: none;" class="sub">
+							<li ng-repeat="childItem in item.childItems" class="sli">{{childItem.name}}</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</div>
-	<script type="text/ng-template" id="myModalContent.html">
-	<div class="modal-header">
-		<h3 class="modal-title">系统提示！</h3>
-	</div>
-	<div class="modal-body">
-		确认删除？
-	</div>
-	<div class="modal-footer">
-		<button class="btn btn-primary" type="button" ng-click="ok()">确认</button>
-		<button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
-	</div>
-</script>
 </body>
 </html>

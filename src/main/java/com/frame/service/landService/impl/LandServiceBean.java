@@ -74,18 +74,36 @@ public class LandServiceBean implements LandService{
 		}
 	}
 
-//	public void saveLog( HttpServletRequest request,String operation){
-//		try {
-//			Log log = new Log();
-//			log.setOperateDate(new Date());
-//			log.setOperateLand(((Land)request.getSession(false).getAttribute("Land")));
-//			log.setOperation(operation);
-//			//记录日志
-//			logDao.saveLog(log);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
+	@Override
+	public List<Land> findAllLandsByState(HttpServletRequest request) {
+		try {
+			return this.landDao.findAllLandsByState();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<Land> getSearchPageList(Integer pageIndex,
+			Integer pageSize, String searchCondition, HttpServletRequest request){
+		try {
+			return this.landDao.getSearchPageList(pageIndex, pageSize, searchCondition);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@Override
+	public int getSearchTotalItems(String searchCondition, HttpServletRequest request){
+		try {
+			int totalItems = this.landDao.getSearchTotalItems(searchCondition);
+			return totalItems;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 1;
+		}
+	}
 
 }

@@ -21,7 +21,7 @@ import com.frame.service.logService.LogService;
 public class LogController {
 
     @Autowired
-    private LogService logService;
+    private LogService logService; 
 
     @RequestMapping(value="/saveLog",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     @ResponseBody

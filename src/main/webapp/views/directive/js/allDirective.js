@@ -12,10 +12,17 @@ angular.module("directiveModel",[])
 				var ngClickEle = target.parent(".ev");
 				var subMenuEle = ngClickEle.next();
 				subMenuEle.slideToggle("fast");
-				$(".sub").not(subMenuEle).slideUp("fast");
+				$(".sul").not(subMenuEle).slideUp("fast");
 			}
 			
-			$scope.goAim = function(url){
+			$scope.goAim = function(url,$event){
+				var target = $event.target;
+				target.style.background="#009688";
+				target.style.color = "white";
+				var slis = $(".sli").not(target);
+				angular.forEach(slis,function(data){
+					$(data).css({"background":"",color:"black"});
+				});
 				$state.go(url);
 			}
 		},

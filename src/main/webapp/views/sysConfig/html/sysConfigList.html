@@ -1,0 +1,57 @@
+<fieldset ng-init="init()">
+	<legend style="font-size: 14px;">配置列表</legend>
+	<div class="row search_div">
+		<div class="col-xs-2" style="text-align: left;">
+			<button class="layui_btn mgl-20" style="margin-left: 10px;"
+				ng-click="toAddForm()">新建系统配置</button>
+		</div>
+		<div class="col-xs-5 col-md-offset-5">
+			<input class="form-control" type="text" ng-model="searchCondition"
+				placeholder="请输入搜索条件"
+				style="width: 40%; display: inline-block; height: 30px;" />
+			<button class="layui_btn mgl-20" style="margin-left: 10px;"
+				ng-click="initalPageList()">查询</button>
+		</div>
+	</div>
+	<table class="table table-bordered">
+		<!-- <caption>用地信息</caption> -->
+		<thead>
+			<tr>
+				<th>配置类型</th>
+				<th>键</th>
+				<th>ֵ值</th>
+				<th>建立日期</th>
+				<th style="width: 150px;">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-if="sysConfigList.length == 0">
+				<td colspan="5"
+					style="text-align: center; height: 100px; line-height: 100px">暂无相关信息</td>
+			</tr>
+			<tr ng-repeat="sysConfig in sysConfigList">
+				<td>{{sysConfig.type}}</td>
+				<td>{{sysConfig.property}}</td>
+				<td>{{sysConfig.value}}</td>
+				<td>{{sysConfig.inputDate|date:'yyyy-MM-dd'}}</td>
+				<td><a ng-click="displaySysConfig(sysConfig.id)">查看</a>&nbsp;&nbsp;&nbsp;<a
+					ng-click="editSysConfig(sysConfig.id)">编辑</a>&nbsp;&nbsp;&nbsp;<a
+					ng-if="sysConfig.deleteable==true"
+					ng-click="deleteSysConfig(sysConfig.id)">删除</a></td>
+			</tr>
+			<tr ng-if="landList.length != 0">
+				<td colspan="8" class="pagetd">每页显示 <select ng-model="$parent.pageSize"
+					ng-change="changePageSize()">
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="15">15</option>
+				</select> 条&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第<span>{{currentPage}}</span>页&nbsp;&nbsp;共<span>{{totalPage}}</span>页&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<button class="page_button" ng-click="firstPage()">首页</button>
+					<button class="page_button" ng-click="lastPage()">上一页</button>{{currentPage}}/{{totalPage}}
+					<button class="page_button" ng-click="nextPage()">下一页</button>
+					<button class="page_button" ng-click="endPage()">尾页</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</fieldset>

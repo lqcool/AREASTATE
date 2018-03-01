@@ -1,4 +1,4 @@
-<div class="pagewrap" ng-init="create()">
+<div class="pagewrap" ng-init="create()" ng-keyup="todoSomething($event)">
 	<div class="main">
 		<div class="header"></div>
 		<div class="content">
@@ -22,7 +22,7 @@
 									name="pwd" ng-model="user.loginPwd" placeholder="输入密码" value="">
 							</div>
 						</div> <br>
-						<button id="btn_Login" ng-click="checkLoginUser()">登陆</button>
+						<button id="btn_Login" ng-click="checkLoginUser()" >登陆</button>
 						<div style="padding-right: 20px; margin-top: 80px;">
 							<span style="float: right;">没有账号？<a ui-sref="regist">立即注册</a></span>
 						</div>

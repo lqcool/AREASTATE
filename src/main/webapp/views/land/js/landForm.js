@@ -6,12 +6,15 @@ controller("landFormController",["$scope","$state","$stateParams","LandService",
 	$scope.init = function(){
 		$scope.land = {};
 		if($scope.operate == "edit"){
+			$("#loading").modal("show");
 			LandService.findLandById($scope.id,suc,ero);
 			function suc(data){
 				$scope.land = data;
+				$("#loading").modal("hide");
 			}
+			
 			function ero(error){
-				alert(error);
+				$("#errorhapen").modal("show");
 			}
 		}
 		else{
@@ -25,6 +28,7 @@ controller("landFormController",["$scope","$state","$stateParams","LandService",
 	}
 	
 	$scope.saveLand = function(){
+		$("#effectiveing").modal("show");
 		if($scope.operate=="edit"){
 			LandService.updateLand($scope.land,suc,ero);
 		}
@@ -32,11 +36,12 @@ controller("landFormController",["$scope","$state","$stateParams","LandService",
 			LandService.saveLand($scope.land,suc,ero);
 		}
 		function suc(data){
+			$("#effectiveing").modal("hide");
 			$state.go("main.landList");
 		}
 		
 		function ero(){
-			
+			$("#errorhapen").modal("show");
 		}
 	}
 }]);

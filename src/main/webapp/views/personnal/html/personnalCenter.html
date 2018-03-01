@@ -1,58 +1,30 @@
 
-<center ng-init="init()">
-	<fieldset
-		style="width: 400px; padding: 2%; text-align: center; margin-top: 100px; border: 1px solid gray;">
-		<div style="margin-top: 20px; height: 25px;">
-			<div
-				style="display: inline-block; width: 100px; height: 100%; float: left; margin-right: 20px;">
-				<span
-					style="display: inline-block; height: 25px; line-height: 25px; float: right;">账号</span>
-			</div>
-			<input type="text" readonly="readonly"
-				style="height: 100%; line-height: 100%; float: left;"
-				ng-model="user.loginNo">
-		</div>
-		<div style="margin-top: 20px; height: 25px;">
-			<div
-				style="display: inline-block; width: 100px; height: 100%; float: left; margin-right: 20px;">
-				<span
-					style="display: inline-block; height: 25px; line-height: 25px; float: right;">密码</span>
-			</div>
-			<input type="password" readonly="readonly"
-				style="height: 100%; line-height: 100%; float: left;"
-				ng-model="user.loginPwd"><a
-				style="display: inline-block; height: 100%; line-height: 100%;"
-				style="margin-left: 12px;"><span ng-click="canEdit()"
-				class="glyphicon glyphicon-pencil"
-				style="display: inline-block; height: 100%; line-height: 100%;"
-				aria-hidden="true"></span></a>
-		</div>
-		<div style="margin-top: 20px; height: 25px;" ng-show="canedit">
-			<div
-				style="display: inline-block; width: 100px; height: 100%; float: left; margin-right: 20px;">
-				<span
-					style="display: inline-block; height: 25px; line-height: 25px; float: right;">旧密码</span>
-			</div>
-			<input type="password" ng-model="oldPwd"
-				style="height: 100%; line-height: 100%; float: left;">
-		</div>
-		<div style="margin-top: 20px; height: 25px;" ng-show="canedit">
-			<div
-				style="display: inline-block; width: 100px; height: 100%; float: left; margin-right: 20px;">
-				<span
-					style="display: inline-block; height: 25px; line-height: 25px; float: right;">新密码</span>
-			</div>
-			<input type="password"
-				style="height: 100%; line-height: 100%; float: left;"
-				ng-model="newPwd">
-		</div>
-		<div style="margin-top: 40px;">
-			<button class="layui-btn " style="height: 23px; line-height: 23px;"
-				ng-click="updateUser()">修改</button>
-			<a href="#"
-				style="display: inline-block; color: white; background-color: #009688; height: 23px; text-decoration: none; line-height: 23px; padding: 0 18px; background-color: #009688; color: #fff; white-space: nowrap; text-align: center; font-size: 14px; border: none; border-radius: 2px;"
-				ui-sref="main" ui-sref-opts="{reload:true}">返回</a>
-		</div>
-	</fieldset>
 
-</center>
+<fieldset style="border: 1px solid #e5e5e5; padding: 10px;"
+	ng-init="init()">
+	<form name="pass">
+	<div style="border-bottom: 1px solid #e5e5e5;">密码修改</div>
+	<div id="personnal_containner_pass ">
+		<div class="col-sm-12">
+			<label class="col-sm-3"></label><label>旧密码:&nbsp;&nbsp;&nbsp;</label><input
+				ng-model="oldPwd" class="form-control personnal_miodifyPassw"
+				type="password" palceholder="请输入原密码" minlength="5" required>
+		</div>
+		<div class="col-sm-12">
+			<label class="col-sm-3"></label><label>新密码:&nbsp;&nbsp;&nbsp;</label><input
+				ng-model="newPwd" class="form-control personnal_miodifyPassw"
+			 name="newPass"	type="password"  minlength="5" required>
+			 <span  id="personnal_xx_passd"  ng-show="pass.newPass.$invalid">新密码至少为5位</span>
+		</div>
+		<div class="col-sm-12 personnal_miodifyPasswButton">
+			<div class="col-sm-12 col-md-offset-4">
+				<button type="button" class="btn btn-info btn-sm"
+					ng-click="changePwd()" ng-disabled="pass.newPass.$invalid">确认修改</button>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<button type="button" class="btn btn-default btn-sm"
+					ng-click="toLandStateList()">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+			</div>
+		</div>
+	</div>
+	</form>
+</fieldset>

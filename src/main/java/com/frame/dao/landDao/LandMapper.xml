@@ -37,7 +37,47 @@
 		SELECT * FROM land ORDER BY inputDate DESC
 	</select>
 	
+	<select id="findAllLandsByState" resultMap="resultListLand">
+		SELECT * FROM land where land.landState="启用" ORDER BY inputDate DESC
+	</select>
+	
 	<select id="deleteLand" parameterType="Integer" resultType="int">
 		delete FROM land where land.id = #{id}
+	</select>
+	
+	<select id="getSearchPageList" resultMap="resultListLand">
+		SELECT
+		land.id,
+		land.landName,
+		land.landAreas,
+		land.code,
+		land.inputDate,
+		land.landState 
+		FROM `land` where
+		land.landName like binary
+		#{searchCondition} or
+		land.landAreas like binary
+		#{searchCondition} or
+		land.code like binary
+		#{searchCondition} or
+		land.inputDate like binary
+		#{searchCondition} or
+		land.landState like binary
+		#{searchCondition} ORDER BY inputDate DESC 
+		limit #{startIndex},#{pageSize}
+	</select>
+	<select id="getSearchTotalItems" resultType="int">
+		SELECT count(1)
+		FROM `land` where
+		land.landName like binary
+		#{searchCondition} or
+		land.landAreas like binary
+		#{searchCondition} or
+		land.code like binary
+		#{searchCondition} or
+		land.inputDate like binary
+		#{searchCondition} or
+		land.landState like binary
+		#{searchCondition} 
 	</select>
 </mapper>

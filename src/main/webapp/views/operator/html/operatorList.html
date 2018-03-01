@@ -1,0 +1,85 @@
+<fieldset ng-init="init()">
+	<legend style="font-size: 14px;">用户列表</legend>
+	<div class="row search_div">
+		<div class="col-xs-5 col-md-offset-7">
+			<input class="form-control" type="text" ng-model="searchCondition"
+				placeholder="请输入搜索条件"
+				style="width: 40%; display: inline-block; height: 30px;" />
+			<button class="layui_btn mgl-20" style="margin-left: 10px;"
+				ng-click="initalPageList()">查询</button>
+		</div>
+	</div>
+	<table class="table table-bordered" style="margin-bottom: 0px;">
+		<thead>
+			<tr>
+				<th>编码</th>
+				<th>用户名</th>
+				<th>联系电话</th>
+				<th>邮箱</th>
+				<th>登陆账号</th>
+				<th>角色</th>
+				<th style="width: 270px;">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-if="operatorList.length == 0">
+				<td colspan="7"
+					style="text-align: center; height: 100px; line-height: 100px">暂无相关信息</td>
+			</tr>
+			<tr ng-repeat="operator in operatorList">
+				<td title="{{operator.eid}}">{{operator.eid}}</td>
+				<td title="{{operator.userName}}">{{operator.userName}}</td>
+				<td title="{{operator.tel}}">{{operator.tel}}</td>
+				<td title="{{operator.email}}">{{operator.email}}</td>
+				<td title="{{operator.loginNo}}">{{operator.loginNo}}</td>
+				<td title="{{operator.loginNo}}">{{operator.roleName}}</td>
+				<td><a ng-click="displayOperator(operator.id)">查看</a>&nbsp;&nbsp;&nbsp;<a
+					ng-click="updateUserRole(operator.id,'user')"
+					ng-if="operator.role=='admin'">撤销管理员权限</a><a
+					ng-if='operator.role != "admin"'
+					ng-click="updateUserRole(operator.id,'admin')">添加管理员权限</a>
+			</tr>
+			<tr ng-if="operatorList.length != 0">
+				<td colspan="8" class="pagetd">
+					每页显示
+					<select ng-model="$parent.pageSize" ng-change="init()">
+						<option>5</option>
+						<option>10</option>
+						<option>15</option>
+					</select>
+					条&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					第<span>{{currentPage}}</span>页&nbsp;&nbsp;共<span>{{totalPage}}</span>页&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<button class="page_button" ng-click="firstPage()">首页</button>
+					<button class="page_button" ng-click="lastPage()">上一页</button>{{currentPage}}/{{totalPage}}
+					<button class="page_button" ng-click="nextPage()">下一页</button>
+					<button class="page_button" ng-click="endPage()">尾页</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</fieldset>
+
+<div class="modal fade bs-example-modal-sm" id="updateRoleConfirm"
+	tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+	aria-hidden="true" data-backdrop="static">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header"
+				style="background: #575b5a; color: white; border-top-left-radius: 5px; border-top-right-radius: 5px; text-align: center;">
+				<h4 class="modal-title" id="updateRoleConfirmTitle">确认框</h4>
+			</div>
+			<div class="modal-body"
+				style="color: #298c57; font-size: 15px; height: 100px; line-height: 70px; text-align: center;"
+				id="updateRoleConfirmContent"></div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary"
+					ng-if="type='detachRole'" ng-click="saveAnouncement()">确定</button>
+				<button type="button" class="btn btn-primary"
+					ng-if="type='detachRoleToUser'" ng-click="saveAnouncement()"
+					ng-if="type='detachRoleToAdmin'">确定</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+

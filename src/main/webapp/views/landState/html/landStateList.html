@@ -1,0 +1,151 @@
+
+<fieldset ng-init="init()">
+	<div class="row landContainer" ng-if="landAvailable == false"
+		style="color: red;">所有场地都被禁用</div>
+
+	<div class="row landContainer" ng-if="landAvailable">
+		<a ng-repeat="land in landList"
+			ng-class="($index == 0) ? 'landAClick':'landAinit'"
+			ng-if="land.landState!='禁用'"
+			ng-click="getLandDailyState(land,$event)"
+			style="margin-bottom: 10px;">{{land.landName}}</a>
+	</div>
+	<div class="row landContainer" style="font-size: 14px;">
+		<div class="col-xs-7" style="padding-left: 0px;">
+			<table class="table table-bordered" style="margin-bottom: 0px;">
+				<caption>
+					<span style="color: red; font-size: 17px;">{{landAvailable?currentLand.landName:"用地"}}</span>占用情况
+				</caption>
+				<thead>
+					<tr>
+						<th>日期</th>
+						<th>上午(8:20~12:00)</th>
+						<th>下午(14:00~17:40)</th>
+						<th>晚上(19:00~21:40)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-if="landDailyStates.length == 0 || landAvailable == false">
+						<td colspan="4"
+							style="text-align: center; height: 100px; line-height: 100px">暂无相关信息</td>
+					</tr>
+					<tr ng-if="landAvailable"
+						ng-repeat="landDailyState in landDailyStates">
+						<td>{{landDailyState.date|date:'yyyy年MM月dd号'}}</td>
+						<td><span>{{landDailyState.amState}}&nbsp;&nbsp;&nbsp;&nbsp;<a
+								class="no_decoratin" ng-if="landDailyState.amState=='可用'"
+								ng-class="(a == true) ? 'selected no_decoratin':'no_decoratin'">({{a==true?
+									'取消锁定':'申请锁定'}})</a><input type="checkbox" ng-model="a"
+								ng-show="landDailyState.amState=='可用'"
+								ng-click="usrselect(currentLand,landDailyState.date,'上午',a)" /></span></td>
+						<td><span>{{landDailyState.pmState}}&nbsp;&nbsp;&nbsp;&nbsp;<a
+								class="no_decoratin" ng-if="landDailyState.pmState=='可用'"
+								ng-class="(b == true) ? 'selected no_decoratin':'no_decoratin'">({{b==true?
+									'取消锁定':'申请锁定'}})</a><input type="checkbox" ng-model="b"
+								ng-show="landDailyState.pmState=='可用'"
+								ng-click="usrselect(currentLand,landDailyState.date,'下午',b)" /></span></td>
+						<td><span>{{landDailyState.nightState}}&nbsp;&nbsp;&nbsp;&nbsp;<a
+								class="no_decoratin" ng-if="landDailyState.nightState=='可用'"
+								ng-class="(c == true) ? 'selected no_decoratin':'no_decoratin'">({{c==true?
+									'取消锁定':'申请锁定'}})</a><input type="checkbox" ng-model="c"
+								ng-show="landDailyState.nightState=='可用'"
+								ng-click="usrselect(currentLand,landDailyState.date,'晚上',c)" /></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="col-xs-5">
+			<table class="table table-bordered" style="margin-bottom: 0px;">
+				<caption>
+					<span style="color: red; font-size: 17px;">选择列表</span>
+				</caption>
+				<thead>
+					<tr>
+						<th>场地</th>
+						<th>日期</th>
+						<th>时段</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-if="applyList.length == 0">
+						<td colspan="5"
+							style="text-align: center; height: 100px; line-height: 100px">暂无相关信息</td>
+					</tr>
+					<tr ng-if="landAvailable" ng-repeat="apply in applyList">
+						<td>{{apply.land.landName}}</td>
+						<td>{{apply.lockDate|date:'yyyy年MM月dd号'}}</td>
+						<td>{{apply.timeQuantum}}</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr ng-if="applyList.length != 0">
+						<td colspan="5" style="text-align: center;"><button
+								type="button" class="btn btn-info btn-sm"
+								ng-click="saveLockingRecords()">提&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;交</button>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<button type="button" class="btn btn-default btn-sm"
+								ng-click="cancel()">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</fieldset>
+
+<div class="modal fade bs-example-modal-sm" id="codeResult" tabindex="-1" role="dialog"
+	aria-labelledby="codeResult" aria-hidden="true"
+	data-backdrop="static">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header"
+				style="background: #504d4d; color: white; border-top-left-radius: 5px; border-top-right-radius: 5px; text-align: center;">
+				<button type="button" class="close" data-dismiss="modal" style="color:white"
+					aria-hidden="true">×</button>
+				<h4 class="modal-title" id="codeResult">你本次锁定的编码如下</h4>
+			</div>
+			<div class="modal-body" style="color: #298c57; font-size: 15px; height: 100px; line-height: 70px; text-align: center;">{{code}}</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/ng-template" id="newapplycation.html">
+	<div class="modal-header" style="background: #575b5a;color: white;border-top-left-radius: 6px;border-top-right-radius: 6px;">
+		<h4 class="modal-title">确定锁定所选场地？</h4>
+	</div>
+	<div class="modal-body">
+        <div class="row">
+			<form class="form-horizontal" role="form" ng-init="init()" style="border:1px solid #e5e5e5">
+				<fieldset >
+					<!--<legend class="legend" data-toggle="collapse" href="#baseInfo"
+						style="cursor: pointer">
+						<span style="padding-left: 15px; font-size: 14px;">基础信息</span>
+					</legend> -->
+					<div id="baseInfo" class="row collapse in">
+						<div class="form-group col-md-6">
+							<label class="col-md-5 control-label">申请场地</label>
+							<div class="col-md-7 value-display" style="padding-top: 7px;">
+								<span>{{lockingRecord.land.landName}}</span>
+							</div>
+						</div>
+						<div class="form-group col-md-6">
+							<label class="col-md-5 control-label">使用日期</label>
+							<div class="col-md-7 value-display" style="padding-top: 7px;">
+								<span>{{lockingRecord.lockDate|date:'yyyy年MM月dd号'}}</span>
+							</div>
+						</div>
+						<div class="form-group col-md-6">
+							<label class="col-md-5 control-label">申请时间段</label>
+							<div class="col-md-7 value-display" style="padding-top: 7px;">
+								<span>{{lockingRecord.timeQuantum}}</span>
+							</div>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+        </div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="button" ng-click="saveLockingRecord()">确定</button>
+		<button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+	</div>
+</script>

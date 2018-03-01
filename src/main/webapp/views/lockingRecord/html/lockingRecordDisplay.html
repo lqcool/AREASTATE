@@ -1,0 +1,54 @@
+<form class="form-horizontal" role="form" ng-init="init()"
+	style="border: 1px solid #e5e5e5">
+	<fieldset style="padding: 25px;">
+		<legend class="legend" data-toggle="collapse" href="#baseInfo"
+			style="cursor: pointer">
+			<span style="padding-left: 15px; font-size: 14px;">基础信息</span>
+		</legend>
+		<div id="baseInfo" class="row collapse in"
+			ng-repeat="lockingRecord in lockingRecords"
+			style="border: 1px solid #f1f1f1; ">
+			<div class="form-group col-md-6">
+				<label class="col-md-4 control-label">申请场地</label>
+				<div class="col-md-8 value-display" style="padding-top: 7px;">
+					<span>{{lockingRecord.land.landName}}</span>
+				</div>
+			</div>
+			<div class="form-group col-md-6">
+				<label class="col-md-4 control-label">使用日期</label>
+				<div class="col-md-8 value-display" style="padding-top: 7px;">
+					<span>{{lockingRecord.lockDate|date:'yyyy-MM-dd'}}</span>
+				</div>
+			</div>
+			<div class="form-group col-md-6">
+				<label class="col-md-4 control-label">申请时间段</label>
+				<div class="col-md-8 value-display" style="padding-top: 7px;">
+					<span>{{lockingRecord.timeQuantum}}</span>
+				</div>
+			</div>
+			<div class="form-group col-md-6">
+				<label class="col-md-4 control-label">联系电话</label>
+				<div class="col-md-8 value-display" style="padding-top: 7px;">
+					<span>{{lockingRecord.user.tel}}</span>
+				</div>
+			</div>
+			<div class="form-group col-md-6">
+				<label class="col-md-4 control-label">状态</label>
+				<div class="col-md-8 value-display" style="padding-top: 7px;">
+					<span>{{lockingRecord.state}}</span>
+				</div>
+			</div>
+			<div class="form-group col-md-6">
+				<label class="col-md-4 control-label">提交时间</label>
+				<div class="col-md-8 value-display" style="padding-top: 7px;">
+					<span>{{lockingRecord.submitDate|date:'yyyy-MM-dd'}}</span>
+				</div>
+			</div>
+		</div>
+		<div class="btn-group formBtnGroup col-md-offset-10"
+			style="margin-top: 70px;">
+			<button class="btn btn-sm" ng-click="cancel()">返回</button>
+		</div>
+	</fieldset>
+
+</form>

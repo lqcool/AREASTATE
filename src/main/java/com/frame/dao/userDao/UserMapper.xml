@@ -5,7 +5,8 @@
 	<!-- <select id="save" resultType="java.util.Map"> SELECT * FROM class </select> -->
 	<insert id="addUser" parameterType="com.frame.entity.user.User">
 		insert into
-		user(eid,loginNo,loginPwd) values(#{eid},#{loginNo},#{loginPwd})
+		user(eid,loginNo,loginPwd,email,tel,address,userName,employeeNo,role,roleName,noReadAnouncementId)
+		values(#{eid},#{loginNo},#{loginPwd},#{email},#{tel},#{address},#{userName},#{employeeNo},#{role},#{roleName},#{noReadAnouncement.id})
 	</insert>
 
 	<insert id="updateUser" parameterType="com.frame.entity.user.User">
@@ -14,17 +15,144 @@
 			<if test="eid != null">user.eid=#{eid},</if>
 			<if test="loginNo != null">user.loginNo=#{loginNo},</if>
 			<if test="loginPwd != null">user.loginPwd=#{loginPwd},</if>
+			<if test="email != null">user.email=#{email},</if>
+			<if test="tel != null">user.tel=#{tel},</if>
+			<if test="address != null">user.address=#{address},</if>
+			<if test="userName != null">user.userName=#{userName},</if>
+			<if test="employeeNo != null">user.employeeNo=#{employeeNo},</if>
 		</set>
 		where user.id=#{id}
 	</insert>
 
-	<select id="findUserById" parameterType="Integer"
-		resultType="com.frame.entity.user.User">
+	<resultMap type="com.frame.entity.user.User" id="resultListUser">
+		<id column="id" property="id" />
+		<result column="eid" property="eid" />
+		<result column="loginNo" property="loginNo" />
+		<result column="loginPwd" property="loginPwd" />
+		<result column="email" property="email" />
+		<result column="tel" property="tel" />
+		<result column="address" property="address" />
+		<result column="userName" property="userName" />
+		<result column="employeeNo" property="employeeNo" />
+		<result column="role" property="role" />
+		<result column="roleName" property="roleName" />
+		<association column="noReadAnouncementId" property="noReadAnouncement"
+			select="com.frame.dao.anouncementDao.AnouncementMapper.findAnouncementById"></association>
+	</resultMap>
+
+	<!-- 加载少量信息 -->
+	<resultMap type="com.frame.entity.user.User" id="resultListUserWithMesSmall">
+		<id column="id" property="id" />
+		<result column="eid" property="eid" />
+		<result column="loginNo" property="loginNo" />
+		<result column="loginPwd" property="loginPwd" />
+		<result column="email" property="email" />
+		<result column="tel" property="tel" />
+		<result column="address" property="address" />
+		<result column="userName" property="userName" />
+		<result column="employeeNo" property="employeeNo" />
+		<result column="role" property="role" />
+		<result column="roleName" property="roleName" />
+	</resultMap>
+
+	<select id="findUserById" parameterType="Integer" resultMap="resultListUser">
 		SELECT * FROM user where user.id=#{id}
 	</select>
 
-	<select id="findUserByLoginNo" resultType="com.frame.entity.user.User">
+	<!-- 加载用户少量信息 -->
+	<select id="findUserByIdWithMesSmall" parameterType="Integer"
+		resultMap="resultListUser">
+		SELECT user.id,user.loginNo,user.email,user.tel FROM user
+		where user.id=#{id}
+	</select>
+
+	<select id="findUserByLoginNo" resultMap="resultListUser">
 		SELECT * FROM user
 		where user.loginNo=#{loginNo}
+	</select>
+
+	<update id="publishuserToUser" parameterType="Integer">
+		update user set
+		user.noaReaduserId = #{userId} where user.id != #{userId}
+	</update>
+
+	<update id="readedAnouncement" parameterType="String">
+		update user set
+		user.noReadAnouncementId = null where user.loginNo = #{loginNo}
+	</update>
+
+	<update id="updateUserRole">
+		update user set
+		user.role =
+		#{role},user.roleName=#{roleName} where user.id = #{id}
+	</update>
+
+	<update id="readeduser" parameterType="String">
+		update user set
+		user.noaReaduserId = null where user.loginNo = #{loginNo}
+	</update>
+	<update id="publishAnouncementToUser" parameterType="Integer">
+		update user
+		set user.noReadAnouncementId = #{anouncementId} where user.id !=
+		#{userId}
+	</update>
+
+	<select id="getSearchPageList" resultMap="resultListUserWithMesSmall">
+		SELECT
+		user.id,
+		user.eid,
+		user.userName,
+		user.address,
+		user.tel,
+		user.email,
+		user.loginNo,
+		user.employeeNo,
+		user.role,
+		user.roleName
+		FROM `user` where
+		user.eid like
+		binary
+		#{searchCondition} or
+		user.userName like binary
+		#{searchCondition} or
+		user.address like binary
+		#{searchCondition} or
+		user.tel like binary
+		#{searchCondition} or
+		user.email like binary
+		#{searchCondition} or
+		user.loginNo like binary
+		#{searchCondition} or
+		user.employeeNo like binary
+		#{searchCondition} or
+		user.role like binary
+		#{searchCondition} or
+		user.roleName like binary
+		#{searchCondition}
+		limit #{startIndex},#{pageSize}
+	</select>
+	<select id="getSearchTotalItems" resultType="int">
+		SELECT count(1)
+		FROM
+		`user` where
+		user.eid like binary
+		#{searchCondition} or
+		user.userName
+		like binary
+		#{searchCondition} or
+		user.address like binary
+		#{searchCondition} or
+		user.tel like binary
+		#{searchCondition} or
+		user.email like binary
+		#{searchCondition} or
+		user.loginNo like binary
+		#{searchCondition} or
+		user.employeeNo like binary
+		#{searchCondition} or
+		user.role like binary
+		#{searchCondition} or
+		user.roleName like binary
+		#{searchCondition}
 	</select>
 </mapper>

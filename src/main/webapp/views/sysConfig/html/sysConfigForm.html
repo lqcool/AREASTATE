@@ -1,0 +1,48 @@
+<form class="form-horizontal" role="form" ng-init="init()"
+	style="border: 1px solid #e5e5e5" name="sysConfigForm">
+	<fieldset style="padding: 25px;">
+		<legend style="font-size: 14px;">配置基本信息录入</legend>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">配置类型</label>
+			<div class="col-sm-4">
+				<select ng-if="operate=='edit'&&sysConfig.deleteable==false"
+					id="disabledSelect" required class="form-control"
+					disabled="disabled" ng-model="sysConfig.type">
+					<option>数值型</option>
+					<option>字符型</option>
+				</select> <select ng-if="sysConfig.deleteable!=false"
+					id="disabledSelect" required class="form-control"
+					ng-model="sysConfig.type">
+					<option>数值型</option>
+					<option>字符型</option>
+				</select>
+			</div>
+			<label class="col-sm-2 control-label">键（配置名称）</label>
+			<div class="col-sm-4">
+				<input ng-if="operate=='edit'&&sysConfig.deleteable==false"
+					class="form-control" type="text" disabled="disabled"
+					ng-model="sysConfig.property" placeholder="请输入配置的名称" /> <input
+					ng-if="sysConfig.deleteable!=false" class="form-control"
+					type="text" ng-model="sysConfig.property" placeholder="请输入配置的名称"
+					required />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">值（配置值）</label>
+			<div class="col-sm-4">
+				<input class="form-control" type="text" ng-model="sysConfig.value"
+					placeholder="请输入配置值" required />
+			</div>
+		</div>
+		<div class="form-group" style="margin-top: 70px;">
+			<div class="col-sm-8"></div>
+			<div class="col-sm-4">
+				<button type="button" class="btn btn-info btn-sm"
+					ng-click="saveSysConfig()" ng-disabled="sysConfigForm.$invalid">提&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;交</button>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<button type="button" class="btn btn-default btn-sm"
+					ng-click="cancel()">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+			</div>
+		</div>
+	</fieldset>
+</form>

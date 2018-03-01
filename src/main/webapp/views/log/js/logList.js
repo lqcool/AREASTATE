@@ -6,7 +6,7 @@ angular.module("logListModule",[])
 
 	$scope.reportData = [];  
 	$scope.maxSize = 3;  
-	$scope.pageSize = 15;
+	$scope.pageSize = 10;
 	$scope.currentPage = 1;  
 	
 	$scope.nextPage = function (event) { 

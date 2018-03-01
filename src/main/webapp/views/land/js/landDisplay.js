@@ -3,12 +3,14 @@ controller("landDisplayController",["$scope","$state","$stateParams","LandServic
 	$scope.id = $stateParams.id;
 	
 	$scope.init = function(){
+		$("#loading").modal("show");
 		LandService.findLandById($scope.id,suc,ero);
 		function suc(data){
 			$scope.land = data;
+			$("#loading").modal("hide");
 		}
 		function ero(error){
-			alert(error);
+			$("#errorhapen").modal("show");
 		}
 		
 	}

@@ -1,5 +1,6 @@
 package com.frame.controller.userController;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,7 @@ import com.frame.service.userService.UserService;
 @Controller
 @RequestMapping("/userController")
 @SessionAttributes({"loginNo"}) 
-public class UserController {
+public class UserController { 
 	@Autowired
 	private UserService userService;
 	
@@ -60,4 +61,37 @@ public class UserController {
 		this.userService.loginOut(request);
 	}
 	
+	@RequestMapping(value="/changePwd",method = RequestMethod.POST)
+    @ResponseBody
+	public Map<String,Object> changePwd(@RequestParam("id") Integer id,@RequestParam("oldPwd") String oldPwd,@RequestParam("newPwd") String newPwd, HttpServletRequest request) {
+		return this.userService.changePwd(id,oldPwd,newPwd,request);
+	}
+	
+	@RequestMapping(value="/readedAnouncement",method = RequestMethod.POST)
+    @ResponseBody
+	public boolean readedAnouncement(@RequestParam("loginNo") String loginNo, HttpServletRequest request){
+		return this.userService.readedAnouncement(loginNo,request);
+	}
+	
+	@RequestMapping(value="/updateUserRole",method = RequestMethod.POST)
+    @ResponseBody
+	public Map<String,Object> updateUserRole(@RequestParam("id") Integer id,@RequestParam("role") String role){
+		return this.userService.updateUserRole(id, role);
+	}
+	
+    @RequestMapping(value="/getSearchPageList",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public Map<String,Object> getSearchPageList(@RequestParam(value="pageIndex") Integer pageIndex,@RequestParam(value="pageSize") Integer pageSize,@RequestParam(value="searchCondition") String searchCondition, HttpServletRequest request){
+    	Map<String, Object> resultMap = new HashMap<String, Object>();
+    	resultMap.put("totalItems", this.userService.getSearchTotalItems(searchCondition, request));
+    	resultMap.put("pageList", this.userService.getSearchPageList(pageIndex, pageSize, searchCondition, request));
+    	return resultMap;
+    }
+    
+    @RequestMapping(value="/getSearchTotalItems",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public int getSearchTotalItems(@RequestParam(value="searchCondition") String searchCondition, HttpServletRequest request){
+    	return this.userService.getSearchTotalItems(searchCondition, request);
+    }
+    
 }
