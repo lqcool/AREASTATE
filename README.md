@@ -39,6 +39,8 @@
 >
 > > 功能结构图如下
 >
+> ![1](https://github.com/LQ55/AREASTATE/blob/master/src/main/webapp/images/1.png)
+>
 > > 分析
 >
 > 注：场地锁定与申请是两个独立的系统，申请系统目前已经有公司承包并开发。
