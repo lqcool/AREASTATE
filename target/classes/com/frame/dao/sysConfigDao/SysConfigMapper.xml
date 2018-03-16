@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frame.dao.sysConfigDao.SysConfigMapper">
+
+	<insert id="addSysConfig" parameterType="com.frame.entity.sysconfig.SysConfig">
+		insert into
+		sysconfig(type,property,value,deleteable,inputDate)
+		values(#{type},#{property},#{value},#{deleteable},#{inputDate})
+	</insert>
+
+	<insert id="updateSysConfig" parameterType="com.frame.entity.sysconfig.SysConfig">
+		update SysConfig
+		<set>
+			<if test="type != null">sysconfig.type=#{type},</if>
+			<if test="property != null">sysconfig.property=#{property},</if>
+			<if test="value != null">sysconfig.value=#{value},</if>
+			<if test="deleteable != null">sysconfig.deleteable=#{deleteable},</if>
+			<if test="inputDate != null">sysconfig.inputDate=#{inputDate},</if>
+		</set>
+		where sysconfig.id=#{id}
+	</insert>
+
+	<resultMap type="com.frame.entity.sysconfig.SysConfig" id="resultListSysConfig">
+		<id column="id" property="id" />
+		<result column="type" property="type" />
+		<result column="property" property="property" />
+		<result column="value" property="value" />
+		<result column="isDelete" property="isDelete"></result>
+		<result column="inputDate" property="inputDate" javaType="java.util.Date" />
+	</resultMap>
+
+	<select id="findSysConfigById" parameterType="Integer"
+		resultType="com.frame.entity.sysconfig.SysConfig">
+		SELECT * FROM sysconfig where sysconfig.id=#{id}
+	</select>
+
+	<select id="findSysConfigByProperty" parameterType="String"
+		resultType="com.frame.entity.sysconfig.SysConfig">
+		SELECT * FROM sysconfig where
+		sysconfig.property=#{property}
+	</select>
+
+	<select id="findAllSysConfigs" resultMap="resultListSysConfig">
+		SELECT * FROM sysconfig
+		ORDER BY inputDate DESC
+	</select>
+
+	<select id="deleteSysConfig" parameterType="Integer" resultType="int">
+		delete FROM sysconfig where sysconfig.id = #{id}
+	</select>
+	<select id="getSearchPageList" resultMap="resultListSysConfig">
+		SELECT
+		sysconfig.id,
+		sysconfig.property,
+		sysconfig.value,
+		sysconfig.type,
+		sysconfig.deleteable 
+		FROM `sysconfig` where 
+		sysconfig.property like binary 
+		#{searchCondition} or 
+		sysconfig.value like binary 
+		#{searchCondition} or 
+		sysconfig.type like binary 
+		#{searchCondition} or 
+		sysconfig.deleteable like binary 
+		#{searchCondition} ORDER BY inputDate DESC
+		limit #{startIndex},#{pageSize}
+	</select>
+	<select id="getSearchTotalItems" resultType="int">
+		SELECT count(1)
+		FROM
+		`sysconfig` where
+		sysconfig.property like binary
+		#{searchCondition} or
+		`sysconfig`.type like binary
+		#{searchCondition} or1
+		`sysconfig`.value like binary
+		#{searchCondition} or
+		`sysconfig`.deleteable like binary
+		#{searchCondition}
+	</select>
+</mapper>

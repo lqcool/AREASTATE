@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frame.dao.anouncementDao.AnouncementMapper">
+
+	<insert id="addAnouncement" parameterType="com.frame.entity.anouncement.Anouncement">
+		insert into
+		anouncement(anouncementTitle,anouncementContent,inputDate,publishDate,anouncementState,urgency,user)
+		values(#{anouncementTitle},#{anouncementContent},#{inputDate},#{publishDate},#{anouncementState},#{urgency},#{user.id})
+	</insert>
+
+	<insert id="updateAnouncement" parameterType="com.frame.entity.anouncement.Anouncement">
+		update anouncement
+		<set>
+			<if test="anouncementTitle != null">anouncement.anouncementTitle=#{anouncementTitle},</if>
+			<if test="anouncementContent != null">anouncement.anouncementContent=#{anouncementContent},</if>
+			<if test="anouncementState != null">anouncement.anouncementState=#{anouncementState},</if>
+			<if test="urgency != null">anouncement.urgency=#{urgency},</if>
+			<if test="inputDate != null">anouncement.inputDate=#{inputDate},</if>
+			<if test="publishDate != null">anouncement.publishDate=#{publishDate},</if>
+			<if test="user != null">anouncement.user=#{user.id},</if>
+		</set>
+		where anouncement.id=#{id}
+	</insert>
+
+	<resultMap type="com.frame.entity.anouncement.Anouncement"
+		id="resultListAnouncement">
+		<id column="id" property="id" />
+		<result column="anouncementTitle" property="anouncementTitle" />
+		<result column="anouncementContent" property="anouncementContent" />
+		<result column="anouncementState" property="anouncementState" />
+		<result column="urgency" property="urgency" />
+		<result column="inputDate" property="inputDate" javaType="java.util.Date" />
+		<result column="publishDate" property="publishDate" javaType="java.util.Date" />
+		<association column="user" property="user"
+			select="com.frame.dao.userDao.UserMapper.findUserByIdWithMesSmall"></association>
+	</resultMap>
+
+	<select id="findAnouncementById" parameterType="Integer"
+		resultType="com.frame.entity.anouncement.Anouncement">
+		SELECT * FROM anouncement where anouncement.id=#{id}
+	</select>
+	
+	<update id="updateAnouncementState" parameterType="String">
+		update anouncement set anouncement.anouncementState = #{state}
+	</update>
+	
+	<update id="updateAnouncementStateById" >
+		update anouncement set anouncement.anouncementState = #{state} where anouncement = #{id}
+	</update>
+
+	<select id="findAllAnouncements" resultMap="resultListAnouncement">
+		SELECT * FROM
+		anouncement ORDER BY inputDate DESC
+	</select>
+	
+	<select id="findAnouncementByState" parameterType="String" resultMap="resultListAnouncement">
+		select * from anouncement where anouncement.anouncementState = #{state}
+	</select>
+
+	<select id="deleteAnouncement" parameterType="Integer"
+		resultType="int">
+		DELETE FROM anouncement where anouncement.id = #{id}
+	</select>
+
+	<select id="getSearchPageList" resultMap="resultListAnouncement">
+		SELECT
+		anouncement.id,
+		anouncement.anouncementTitle,
+		anouncement.anouncementContent,
+		anouncement.anouncementState,
+		anouncement.urgency,
+		anouncement.inputDate,
+		anouncement.publishDate,
+		anouncement.user 
+		FROM `anouncement` where 
+		anouncement.anouncementTitle like binary
+		#{searchCondition} or 
+		anouncement.anouncementContent like binary
+		#{searchCondition} or
+		anouncement.anouncementState like binary
+		#{searchCondition} or
+		anouncement.inputDate like binary
+		#{searchCondition} or
+		anouncement.publishDate like binary
+		#{searchCondition} or
+		anouncement.urgency like binary
+		#{searchCondition} 
+		ORDER BY publishDate DESC limit
+		#{startIndex},#{pageSize}
+	</select>
+	<select id="getSearchTotalItems" resultType="int">
+		SELECT count(1) 
+		FROM `anouncement` where  
+		anouncement.anouncementTitle like binary
+		#{searchCondition} or 
+		anouncement.anouncementContent like binary
+		#{searchCondition} or
+		anouncement.anouncementState like binary
+		#{searchCondition} or
+		anouncement.inputDate like binary
+		#{searchCondition} or
+		anouncement.publishDate like binary
+		#{searchCondition} or
+		anouncement.urgency like binary
+		#{searchCondition} 
+	</select>
+</mapper>
