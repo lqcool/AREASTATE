@@ -66,3 +66,22 @@
 
 #### 系统运行截图
 
+![2](https://github.com/LQ55/AREASTATE/blob/master/src/main/webapp/images/2.png)
+
+![3](https://github.com/LQ55/AREASTATE/blob/master/src/main/webapp/images/3.png)
+
+![4](https://github.com/LQ55/AREASTATE/blob/master/src/main/webapp/images/4.png)
+
+![5](https://github.com/LQ55/AREASTATE/blob/master/src/main/webapp/images/5.png)
+
+![6](https://github.com/LQ55/AREASTATE/blob/master/src/main/webapp/images/6.png)
+
+![7](https://github.com/LQ55/AREASTATE/blob/master/src/main/webapp/images/7.png)
+
+![8](https://github.com/LQ55/AREASTATE/blob/master/src/main/webapp/images/8.png)
+
+##### 这是一个angular+ui-router+requireJs+angularAMD+SSM为技术栈的小项目，如果对练手有帮助，给个star吧。^_^
+
+^_^
+
+^_^
